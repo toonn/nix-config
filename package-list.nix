@@ -14,6 +14,7 @@ haskellPackages:
   pandoc-types
   pqueue
   scientific
+  tasty
   utf8-string
   vector
   xml

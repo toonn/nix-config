@@ -22,6 +22,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
           #ghc-exactprint = dontCheck super.ghc-exactprint;
           argon2 = dontCheck (doJailbreak super.argon2);
           pointfree = doJailbreak super.pointfree;
+          cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
          });
   };
   profiledHaskellPackages = super.haskell.packages.ghc822.override {
