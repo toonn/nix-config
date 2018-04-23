@@ -74,8 +74,10 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       rsync
       time
       tmux
+      tomb
       udisks2
       unrar
+      unzip
       xdotool
       zip
     ];
