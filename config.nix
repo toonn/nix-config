@@ -70,6 +70,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       gnome3.file-roller
       gist
       moreutils
+      mupdf
       ripgrep
       rsync
       time
@@ -87,7 +88,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     name = "webTools";
     paths = [
       firefox
-      nylas-mail-bin
+      #nylas-mail-bin
       thunderbird
     ];
   };
