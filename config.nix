@@ -39,6 +39,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       bind
       fast-tags
       #ghc-mod
+      ghcid
       # hasktags
       hlint
       pointfree
