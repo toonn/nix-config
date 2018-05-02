@@ -68,7 +68,6 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     name = "systemTools";
     paths = [
       bind
-      dunst
       fd
       gnome3.file-roller
       gist
