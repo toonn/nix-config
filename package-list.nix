@@ -2,10 +2,14 @@ haskellPackages:
   with haskellPackages; [
   argon2
   base
+  base16-bytestring
   blake2
   containers
   cpu
   cryptonite
+  dhall
+  #dhall-nix
+  dhall-text
   megaparsec
   MonadRandom
   mtl
@@ -14,7 +18,11 @@ haskellPackages:
   pandoc-types
   pqueue
   scientific
+  shake
   tasty
+  tasty-hunit
+  tasty-hedgehog
+  text
   utf8-string
   vector
   xml

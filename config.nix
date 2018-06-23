@@ -20,9 +20,10 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     overrides = self: super: (myHaskellPackages false self super)
       // (with pkgs.haskell.lib; {
           #ghc-exactprint = dontCheck super.ghc-exactprint;
-          argon2 = dontCheck (doJailbreak super.argon2);
+          argon2 = dontCheck (super.argon2);
           pointfree = doJailbreak super.pointfree;
           cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
+          dhall = super.callHackage "dhall" "1.14.0" {};
          });
   };
   profiledHaskellPackages = super.haskell.packages.ghc822.override {
@@ -92,6 +93,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       firefox
       #nylas-mail-bin
       thunderbird
+      toxvpn
     ];
   };
 
@@ -115,13 +117,23 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
 
   writingEnv = pkgs.myEnvFun {
     name = "writing";
-    buildInputs = [
+    buildInputs = with haskellPackages; [
       pandoc
       rst2html5
       (texlive.combine { inherit (texlive)
                           scheme-small
                           collection-fontsrecommended
-                          enumitem; })
+                          enumitem
+                          fontawesome; })
+      (ghcWithHoogle (import ~/src/nix-config/package-list.nix))
+      # dev tools
+      apply-refact # hlint refactoring
+      cabal-install
+      bind
+      fast-tags
+      ghcid
+      hlint
+      pointfree
     ];
   };
 };
