@@ -94,13 +94,20 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     ];
   };
 
+  netToolsEnv = pkgs.buildEnv {
+    name = "netTools";
+    paths = [
+      irssi
+      toxvpn
+    ];
+  };
+
   webToolsEnv = pkgs.buildEnv {
     name = "webTools";
     paths = [
       firefox
       #nylas-mail-bin
       thunderbird
-      toxvpn
     ];
   };
 
