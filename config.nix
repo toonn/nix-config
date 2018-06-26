@@ -70,7 +70,6 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     paths = [
       bind
       fd
-      gnome3.file-roller
       gist
       moreutils
       mupdf
@@ -78,12 +77,20 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       rsync
       time
       tmux
-      tomb
-      udisks2
       unrar
       unzip
-      xdotool
       zip
+    ];
+  };
+
+  linuxToolsEnv = pkgs.buildEnv {
+    name = "linuxTools";
+    paths = [
+      dunst
+      gnome3.file-roller
+      tomb
+      udisks2
+      xdotool
     ];
   };
 
