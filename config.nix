@@ -36,12 +36,14 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       (ghcWithHoogle (import ~/src/nix-config/package-list.nix))
       # dev tools
       apply-refact # hlint refactoring
-      cabal-install
       bind
+      brittany
+      cabal-install
       fast-tags
-      #ghc-mod
+      # ghc-mod
       ghcid
       # hasktags
+      hindent
       hlint
       pointfree
     ];
