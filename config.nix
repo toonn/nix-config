@@ -24,6 +24,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
           pointfree = doJailbreak super.pointfree;
           cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
           dhall = super.callHackage "dhall" "1.14.0" {};
+          ListLike = doJailbreak super.ListLike;
          });
   };
   profiledHaskellPackages = super.haskell.packages.ghc822.override {
