@@ -14,8 +14,20 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     });
   };
 
-  haskellPackages = haskell822Packages;
+  haskellPackages = haskell843Packages;
 
+  haskell843Packages = super.haskell.packages.ghc843.override {
+    overrides = self: super: (myHaskellPackages false self super)
+      // (with pkgs.haskell.lib; {
+          #ghc-exactprint = dontCheck super.ghc-exactprint;
+          argon2 = dontCheck (super.argon2);
+          #pointfree = doJailbreak super.pointfree;
+          cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
+          #dhall = super.callHackage "dhall" "1.14.0" {};
+          #ListLike = addBuildDepend super.ListLike super.semigroups;
+          conduit-extra = dontCheck super.conduit-extra;
+         });
+  };
   haskell822Packages = super.haskell.packages.ghc822.override {
     overrides = self: super: (myHaskellPackages false self super)
       // (with pkgs.haskell.lib; {
@@ -24,7 +36,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
           pointfree = doJailbreak super.pointfree;
           cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
           dhall = super.callHackage "dhall" "1.14.0" {};
-          ListLike = doJailbreak super.ListLike;
+          ListLike = addBuildDepend super.ListLike super.semigroups;
          });
   };
   profiledHaskellPackages = super.haskell.packages.ghc822.override {
