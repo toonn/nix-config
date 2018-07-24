@@ -3,6 +3,7 @@ haskellPackages:
   argon2
   base
   base16-bytestring
+  binary
   blake2
   containers
   cpu
@@ -10,10 +11,13 @@ haskellPackages:
   dhall
   #dhall-nix
   dhall-text
+  dns
+  iproute
   megaparsec
   MonadRandom
   mtl
   network
+  network-multicast
   optparse-applicative
   pandoc-types
   pqueue

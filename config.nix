@@ -43,8 +43,8 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     overrides = myHaskellPackages true;
   };
 
-  ghc82Env = pkgs.myEnvFun {
-    name = "ghc82";
+  ghcEnv = pkgs.myEnvFun {
+    name = "ghc";
     buildInputs = with haskellPackages; [
       (ghcWithHoogle (import ~/src/nix-config/package-list.nix))
       # dev tools
@@ -163,6 +163,8 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
       ghcid
       hlint
       pointfree
+      hindent
+      brittany
     ];
   };
 };
