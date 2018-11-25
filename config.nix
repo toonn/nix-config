@@ -28,7 +28,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
           #conduit-extra = dontCheck super.conduit-extra;
          });
   };
-  haskell843Packages = super.haskell.packages.ghc843.override {
+  haskell844Packages = super.haskell.packages.ghc844.override {
     overrides = self: super: (myHaskellPackages false self super)
       // (with pkgs.haskell.lib; {
           #ghc-exactprint = dontCheck super.ghc-exactprint;
