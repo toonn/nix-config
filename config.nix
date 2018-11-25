@@ -14,9 +14,21 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     });
   };
 
-  haskellPackages = haskellHEADPackages;
+  haskellPackages = haskell862Packages;
 
   haskellHEADPackages = super.haskell.packages.ghcHEAD.override {
+    overrides = self: super: (myHaskellPackages false self super)
+      // (with pkgs.haskell.lib; {
+          #ghc-exactprint = dontCheck super.ghc-exactprint;
+          #argon2 = dontCheck (super.argon2);
+          #pointfree = doJailbreak super.pointfree;
+          #cryptohash-sha256 = dontCheck (super.cryptohash-sha256);
+          #dhall = super.callHackage "dhall" "1.14.0" {};
+          #ListLike = addBuildDepend super.ListLike super.semigroups;
+          #conduit-extra = dontCheck super.conduit-extra;
+         });
+  };
+  haskell862Packages = super.haskell.packages.ghc862.override {
     overrides = self: super: (myHaskellPackages false self super)
       // (with pkgs.haskell.lib; {
           #ghc-exactprint = dontCheck super.ghc-exactprint;
