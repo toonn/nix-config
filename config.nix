@@ -14,7 +14,7 @@ packageOverrides = super: let self = super.pkgs; in with self; rec {
     });
   };
 
-  haskellPackages = haskell862Packages;
+  haskellPackages = haskellHEADPackages;
 
   haskellHEADPackages = super.haskell.packages.ghcHEAD.override {
     overrides = self: super: (myHaskellPackages false self super)
