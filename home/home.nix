@@ -2,7 +2,7 @@
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
-  nixpkgs.config = { allowUnfree = true; };
+	nixpkgs.config = { allowUnfree = true; };
 
   home.file = { ".config/fish/functions".source =
                   ~/src/dotfiles/fish/functions;
@@ -18,52 +18,68 @@
                 # ".vim" = ~/src/dotfiles/vim;
               };
 
-  home.packages = with pkgs;
-    [ (buildEnv { name = "myApps";
-                  paths = [
-                    # anki
-                    inkscape
-                    karabiner-elements
-                    kitty
-                    wire-desktop
-                    ];
-                  pathsToLink = [
-                    "/Applications"
-                    "/bin"
-                    "/Library"
-                    "/share"
-                    ];
-                 })
-      curl
-      fd
-      gist
-      gnupg
-      # ifuse
-      moreutils
-      mupdf
-      # (pass.withExtensions (exts: [ exts.pass-otp ]))
-      ranger
-      ripgrep
-      rsync
-      time
-      toxvpn
-      unrar
-      youtube-dl
-      zbar
-    ];
+  home.packages = let provideApp = app:
+                        if pkgs.stdenv.isDarwin
+                          then (pkgs.buildEnv { name = "${app.name}-App";
+                                                paths = [
+                                                    app
+                                                  ];
+                                                pathsToLink = [
+                                                    "/Applications"
+                                                    "/bin"
+                                                    "/Library"
+                                                    "/share"
+                                                  ];
+                                               }
+                               )
+                          else app;
+    in with pkgs;
+       map provideApp [
+         # anki
+         inkscape
+         karabiner-elements
+         kitty
+         wire-desktop
+       ] ++ [ 
+         curl
+         fd
+         gist
+         gnupg
+         # ifuse
+         moreutils
+         mupdf
+         # (pass.withExtensions (exts: [ exts.pass-otp ]))
+         ranger
+         ripgrep
+         rsync
+         time
+         toxvpn
+         unrar
+         youtube-dl
+         zbar
+       ];
 
-  home.sessionVariables = { # COLUMNS = 80;
-                            # LANG = "en_DK.UTF-8";
-                            LANG = "en_US.UTF-8";
-                            LC_CTYPE = "en_US.UTF-8";
-                            LC_MEASUREMENT = "nl_BE.UTF-8";
-                            LC_PAPER = "nl_BE.UTF-8";
-                            LC_TIME = "nl_BE.UTF-8";
-                            # LS_COLORS = "";
-                            RANGER_LOAD_DEFAULT_RC = "FALSE";
-                            SYSTEMD_EDITOR = "vim";
-                            VISUAL = "vim";
-                          };
+  home.sessionVariables =
+    let common = {
+            # COLUMNS = 80;
+            # LS_COLORS = "";
+            RANGER_LOAD_DEFAULT_RC = "FALSE";
+            VISUAL = "vim";
+          };
+        linux = common // {
+            # LANG = "en_DK.UTF-8";
+            SYSTEMD_EDITOR = "vim";
+          };
+        darwin = common // {
+            LANG           = "en_US.UTF-8";
+            LC_CTYPE       = "en_US.UTF-8";
+            LC_MEASUREMENT = "nl_BE.UTF-8";
+            LC_PAPER       = "nl_BE.UTF-8";
+            LC_TIME        = "nl_BE.UTF-8";
+          };
+    in if pkgs.stdenv.isDarwin
+      then darwin
+      else linux;
 
   # programs.direnv = { enable = true;
   #                     enableFishIntegration = true;
