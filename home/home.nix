@@ -2,9 +2,20 @@
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
-	nixpkgs.config = { allowUnfree = true; };
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: {
+      nur = import
+        (builtins.fetchTarball
+          "https://github.com/nix-community/NUR/archive/master.tar.gz"
+        )
+	{ inherit pkgs; };
+    };
+  };
 
-  home.file = { ".config/fish/functions".source =
+  home.file = { "bin".source = ~/src/dotfiles/bin;
+                "opt".source = ~/src/dotfiles/opt;
+                ".config/fish/functions".source =
                   ~/src/dotfiles/fish/functions;
                 ".config/kitty".source = ~/src/dotfiles/kitty;
                 ".config/mpv/scripts".source = ~/src/dotfiles/mpv/scripts;
@@ -45,7 +56,7 @@
          fd
          gist
          gnupg
-         # ifuse
+         irssi
          moreutils
          mupdf
          # (pass.withExtensions (exts: [ exts.pass-otp ]))
@@ -53,7 +64,7 @@
          ripgrep
          rsync
          time
-         toxvpn
+         # toxvpn
          unrar
          youtube-dl
          zbar
@@ -97,21 +108,20 @@
   #                          saka-key
   #                          googleLinkFix
   #                        ];
-  #                      profiles = { };
-  #                      profiles.<name>.userChrome = "";
+  #                      profiles = {
+  #                        "toonn" = {
+  #                          id = 0;
+  #                          isDefault = true;
+  #                          name = "toonn";
+  #                          path = "toonn";
+  #                          # settings = {};
+  #                          # userChrome = "";
+  #                        };
+  #                      };
   #                    };
 
   programs.fish = { enable = true;
                     package = pkgs.fish;
-                    shellInit = ''
-                        if set -l ind \
-                             ( contains -i -- \
-                                 /nix/var/nix/profiles/per-user/root/channels \
-                                 $NIX_PATH \
-                             )
-                          set -Ue NIX_PATH[$ind]
-                        end
-                      '';
                   };
   
   programs.git = { enable = true;
