@@ -13,12 +13,41 @@
     };
   };
 
-  home.file = { "bin".source = ~/src/dotfiles/bin;
-                "opt".source = ~/src/dotfiles/opt;
-                ".config/fish/functions".source =
-                  ~/src/dotfiles/fish/functions;
-                ".config/kitty".source = ~/src/dotfiles/kitty;
-                ".config/mpv/scripts".source = ~/src/dotfiles/mpv/scripts;
+  home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
+    ''
+      ln -sf $HOME/src/dotfiles/bin  $HOME/bin
+      ln -sf $HOME/src/dotfiles/opt  $HOME/opt
+      ln -sf $HOME/src/dotfiles/tmux $HOME/.tmux
+      ln -sf $HOME/src/dotfiles/vim  $HOME/.vim
+      ln -sf $HOME/src/dotfiles/fish/functions \
+        ${config.xdg.configHome}/fish/functions
+      ln -sf $HOME/src/dotfiles/kitty \
+        ${config.xdg.configHome}/kitty
+      # ln -sf $HOME/src/dotfiles/mpv/scripts \
+      #   ${config.xdg.configHome}/mpv/scripts
+      ln -sf $HOME/src/dotfiles/ranger \
+        ${config.xdg.configHome}/ranger
+    '';
+
+  home.activation.linkApps = config.lib.dag.entryAfter [ "linkGeneration" ]
+    if pkgs.stdenv.isDarwin
+      then ''
+        for app in $HOME/.nix-profile/Applications/*.app;
+        do ln -sf $app $HOME/ApplicationsNix;
+        done
+        for d in $HOME/.nix-profile/Library/*;
+          do for f in $HOME/.nix-profile/Library/$d/*;
+            do ln -sf $f $HOME/Library/$d; done
+          done
+      '';
+      else "";
+    
+  home.file = { # "bin".source = ~/src/dotfiles/bin;
+                # "opt".source = ~/src/dotfiles/opt;
+                # ".config/fish/functions".source =
+                #   ~/src/dotfiles/fish/functions;
+                # ".config/kitty".source = ~/src/dotfiles/kitty;
+                # ".config/mpv/scripts".source = ~/src/dotfiles/mpv/scripts;
                 # ".config/nix/nix.conf".source = ./dotfiles/nix/nix.conf;
                 # ".config/ranger/rc.conf".source = ./dotfiles/ranger/rc.conf;
                 # ".config/ranger/rifle.conf".source =
