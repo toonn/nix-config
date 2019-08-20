@@ -31,7 +31,7 @@
 
 
   # Personal setup
-  environment.loginShell = "fish";
+  environment.shells = [ pkgs.fish ];
   environment.variables = { VISUAL = "vim"; };
 
   networking.hostName = "terra";
@@ -66,6 +66,7 @@
                           "com.apple.swipescrolldirection" = true;
                           "com.apple.trackpad.enableSecondaryClick" = true;
                         };
+                      LaunchServices.LSQuarantine = false;
                       dock = { autohide = true;
                                autohide-delay = "0.15";
                                autohide-time-modifier = "0.5";
@@ -81,6 +82,11 @@
                                  };
                     };
 
+  system.activationScripts.userDefaults.text = ''
+    defaults write .GlobalPreferences 'com.apple.sound.beep.sound' \
+      -string '/System/Library/Sounds/Morse.aiff'
+    '';
+
   system.keyboard = { enableKeyMapping = true;
                       remapCapsLockToEscape = true;
                     };
@@ -92,6 +98,9 @@
                                ];
           };
 
-  home-manager.useUserPackages = true;
+  users.users.toonn = { shell = pkgs.fish; };
+
+  # Otherwise hm Applications don't end up in .nix-profile
+  home-manager.useUserPackages = false;
   home-manager.users.toonn = import ~/.config/nixpkgs/home.nix;
 }

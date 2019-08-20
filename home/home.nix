@@ -2,16 +2,7 @@
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = pkgs: {
-      nur = import
-        (builtins.fetchTarball
-          "https://github.com/nix-community/NUR/archive/master.tar.gz"
-        )
-	{ inherit pkgs; };
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
@@ -29,18 +20,19 @@
         ${config.xdg.configHome}/ranger
     '';
 
-  home.activation.linkApps = config.lib.dag.entryAfter [ "linkGeneration" ]
-    if pkgs.stdenv.isDarwin
-      then ''
+  home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
+    (pkgs.stdenv.lib.strings.optionalString pkgs.stdenv.isDarwin
+      ''
         for app in $HOME/.nix-profile/Applications/*.app;
         do ln -sf $app $HOME/ApplicationsNix;
         done
-        for d in $HOME/.nix-profile/Library/*;
-          do for f in $HOME/.nix-profile/Library/$d/*;
-            do ln -sf $f $HOME/Library/$d; done
-          done
-      '';
-      else "";
+        # Karabiner's Lib needs to be in /Library : /
+        # for d in $HOME/.nix-profile/Library/*;
+        #   do mkdir -p $HOME/"''${d''\#$HOME/.nix-profile/}"
+        #      for f in "$d"/*;
+        #        do ln -sf "$f" $HOME/"''${d''\#$HOME/.nix-profile/}"; done
+        #   done
+      '');
     
   home.file = { # "bin".source = ~/src/dotfiles/bin;
                 # "opt".source = ~/src/dotfiles/opt;
@@ -75,26 +67,26 @@
                           else app;
     in with pkgs;
        map provideApp [
-         # anki
-         inkscape
-         karabiner-elements
-         kitty
-         wire-desktop
        ] ++ [ 
+         # anki
          curl
          fd
          gist
          gnupg
          irssi
+         # ifuse
+         inkscape
+         kitty
          moreutils
          mupdf
-         # (pass.withExtensions (exts: [ exts.pass-otp ]))
+         # (pass.withExtensions (exts: with exts; [ pass-otp ]))
          ranger
          ripgrep
          rsync
          time
          # toxvpn
          unrar
+         wire-desktop
          youtube-dl
          zbar
        ];
@@ -151,6 +143,15 @@
 
   programs.fish = { enable = true;
                     package = pkgs.fish;
+                    # shellInit = ''
+                    #     if set -l ind \
+                    #          ( contains -i -- \
+                    #              /nix/var/nix/profiles/per-user/root/channels \
+                    #              $NIX_PATH \
+                    #          )
+                    #       set -e NIX_PATH[$ind]
+                    #     end
+                    #   '';
                   };
   
   programs.git = { enable = true;
