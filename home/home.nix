@@ -228,18 +228,18 @@
           "Ctrl+Alt+-"       = "add window-scale -0.5";
           "Ctrl+Alt++"       = "add window-scale +0.5";
         };
-       config = { osc                  = "no";
-                  volume-max           = "600";
-                  af                   = "scaletempo";
-                  sub-auto             = "fuzzy";
-                  slang                = "eng,en";
-                  alang                = "eng,en";
-                  border               = "no";
-                  ytdl-format          =
+       config = { osc             = "no";
+                  volume-max      = "600";
+                  af              = "scaletempo";
+                  sub-auto        = "fuzzy";
+                  slang           = "eng,en";
+                  alang           = "eng,en";
+                  border          = "no";
+                  ytdl-format     =
                     "best #bestvideo[height<=?720]+bestaudio/best";
-                  osd-font             = "'Source Sans Pro'";
-                  osd-font-size        = 40;
-                  # sub-scale            = 0.6;
+                  osd-font        = "'Source Sans Pro'";
+                  osd-font-size   = 40;
+                  # sub-scale       = 0.6;
                   sub-font-size   = 27; # default 55
                   sub-border-size = 1.5; # default 3
                 };
