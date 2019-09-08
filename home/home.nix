@@ -240,8 +240,8 @@
                   osd-font             = "'Source Sans Pro'";
                   osd-font-size        = 40;
                   # sub-scale            = 0.6;
-                  sub-text-font-size   = 27; # default 55
-                  sub-text-border-size = 1.5; # default 3
+                  sub-font-size   = 27; # default 55
+                  sub-border-size = 1.5; # default 3
                 };
        # profiles = { fast = { vo = "vdpau"; }; };
     };
