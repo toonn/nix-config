@@ -76,15 +76,17 @@
          irssi
          # ifuse
          inkscape
+         # karabiner-elements
          kitty
          moreutils
          mupdf
          # (pass.withExtensions (exts: with exts; [ pass-otp ]))
+         popcorntime
          ranger
          ripgrep
          rsync
          time
-         # toxvpn
+         toxvpn
          unrar
          wire-desktop
          youtube-dl
