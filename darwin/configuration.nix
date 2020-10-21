@@ -41,8 +41,21 @@
 
   networking.hostName = "terra";
 
-  # nixpkgs.config = { allowUnfree = true; };
-  # nixpkgs.overlays = [ ];
+  nixpkgs.config = {
+    allowUnfreePredicate = p: builtins.elem (pkgs.stdenv.lib.getName p) [
+        "joypixels"
+      ];
+    joypixels.acceptLicense = true;
+    packageOverrides = pkgs: {
+      nur = import (builtins.fetchTarball
+        "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+          inherit pkgs;
+        };
+    };
+  };
+  nixpkgs.overlays = [ (import ~/.config/nixpkgs/overlays/joypixels.nix)
+                       (import ~/.config/nixpkgs/overlays/haskell-packages.nix)
+                     ];
 
   #programs.tmux.enable = true;
   #programs.tmux.enableSensible = true;
@@ -98,8 +111,11 @@
 
   fonts = { enableFontDir = true;
             fonts = with pkgs; [ dejavu_fonts
-                                 #emojione
-                                 symbola
+                                 #emojione  # Doesn't build
+                                 #symbola  # Not foss anymore
+                                 #noto-fonts-emoji  # How to prioritize B&W?
+                                 #openmoji  # Not packaged? :"(
+                                 joypixels
                                ];
           };
 
