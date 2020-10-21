@@ -392,6 +392,10 @@
                     aggressiveResize = true;
                     clock24 = true;
                     # disableConfirmationPrompt = true;
+                    extraConfig = ''
+                      set -g allow-rename on
+                      set -ga terminal-overrides ",xterm-kitty:Tc"
+                    '';
                     plugins = [ pkgs.tmuxPlugins.sensible ];
                     secureSocket = false;
                     terminal = "screen-256color";
