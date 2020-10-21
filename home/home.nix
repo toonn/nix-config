@@ -299,6 +299,7 @@
                   # sub-scale       = 0.6;
                   sub-font-size   = 27; # default 55
                   sub-border-size = 1.5; # default 3
+                  title           = "\${path}"; # for arbtt
                 };
        # profiles = { fast = { vo = "vdpau"; }; };
     };
