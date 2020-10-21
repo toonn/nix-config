@@ -2,7 +2,26 @@
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfreePredicate = p: builtins.elem (pkgs.stdenv.lib.getName p) [
+      "ffmpeg-full"
+      "Firefox"
+      "openemu"
+      "unrar"
+      ];
+    #overlays = [
+    #  (import ~/.config/nixpkgs/overlays/firefox.nix)
+    #  ];
+    packageOverrides = pkgs: {
+      nur = import (builtins.fetchTarball
+        "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+          inherit pkgs;
+        };
+    };
+    permittedInsecurePackages = [
+        "openssl-1.0.2u"
+      ];
+  };
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
