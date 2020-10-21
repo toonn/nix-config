@@ -39,6 +39,22 @@
   environment.shells = [ pkgs.fish ];
   environment.variables = { VISUAL = "vim"; };
 
+  launchd.user.agents = {
+    arbtt = {
+      script = ''
+        DATADIR="''${XDG_DATA_HOME:-$HOME/.local/share/arbtt}"
+        LOG="''${DATADIR}/''$(date +%Y).capture"
+        STDERR="''${DATADIR}/''$(date +%Y-%m).out"
+        STDOUT="''${DATADIR}/''$(date +%Y-%m).err"
+        mkdir -p "''${DATADIR}"
+        arbtt-capture --logfile="''${LOG}" 2>''${STDERR} >''${STDOUT}
+      '';
+      path = with pkgs; [ arbtt coreutils ];
+      serviceConfig.KeepAlive = true;
+      serviceConfig.StandardErrorPath = "/Users/toonn/arbtt.stderr";
+    };
+  };
+
   networking.hostName = "terra";
 
   nixpkgs.config = {
