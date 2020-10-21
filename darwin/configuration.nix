@@ -103,7 +103,8 @@
                                ];
           };
 
-  users.users.toonn = { shell = pkgs.fish; };
+  users.users.toonn = { home = "/Users/toonn";
+                        shell = pkgs.fish; };
 
   # Otherwise hm Applications don't end up in .nix-profile
   home-manager.useUserPackages = false;
