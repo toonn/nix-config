@@ -200,7 +200,11 @@
   
   programs.git = { enable = true;
                    package = pkgs.git;
-                   # aliases = { };
+                   aliases =
+                     { lg = "log --graph --pretty=format:'%C(auto)%h -%d %s"
+                          + " %Cgreen(%cr) %C(bold blue)<%an>%Creset'";
+                       st = "status -sb";
+                     };
                    ignores =
                      [ # Swap
                        "[._]*.s[a-v][a-z]"
@@ -218,8 +222,19 @@
                        "*~"
                        # Auto-generated tag files
                        "tags"
+
                        # Persistent undo
                        "[._]*.un~"
+
+                       # Direnv
+                       ".direnv"
+                       ".envrc"
+
+                       # OS generated files
+                       ".DS_Store"
+                       "ehthumbs.db"
+                       "Icon?"
+                       "Thumbs.db"
                      ];
                    # signing = null;
                    userEmail = "toonn@toonn.io";
