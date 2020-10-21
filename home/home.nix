@@ -51,8 +51,13 @@
         #      for f in "$d"/*;
         #        do ln -sf "$f" $HOME/"''${d''\#$HOME/.nix-profile/}"; done
         #   done
+        # for d in $HOME/.nix-profile/Library/*;
+        #   do mkdir -p /"''${d''\#$HOME/.nix-profile/}"
+        #      for f in "$d"/org.pqrs*;
+        #        do sudo ln -sf "$f" /"''${d''\#$HOME/.nix-profile/}"; done
+        #   done
       '');
-    
+
   home.file = { # "bin".source = ~/src/dotfiles/bin;
                 # "opt".source = ~/src/dotfiles/opt;
                 # ".config/fish/functions".source =
@@ -121,7 +126,14 @@
          wire-desktop
          youtube-dl
          zbar
-       ] ++ (if pkgs.stdenv.isDarwin then [ openemu ] else []);
+       ] ++ (if pkgs.stdenv.isDarwin
+             then [ openemu
+                    (vim_configurable.override { darwinSupport = true;
+                                                 guiSupport = "no";
+                                                 netBeansSupport = false;
+                                               })
+                  ]
+             else []);
 
   home.sessionVariables =
     let common = {
