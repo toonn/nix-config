@@ -333,7 +333,7 @@
                       # From terra:
                       "github" = { hostname = "github.com";
                                    user = "git";
-                                   identityFile = "~/.ssh/git_id_rsa";
+                                   identityFile = "~/.ssh/terra_gh_id_ed25519";
                                    extraOptions = { preferredAuthentications =
                                                       "publickey";
                                                   };
@@ -342,6 +342,14 @@
                                  user         = "git";
                                  identityFile = "~/.ssh/github_id_rsa";
                                };
+                      "gho" = { hostname = "gitlab.haskell.org";
+                                user = "git";
+                                identityFile = "~/.ssh/terra_gho_id_ed25519";
+                              };
+                      "gfo" = { hostname = "gitlab.freedesktop.org";
+                                user = "git";
+                                identityFile = "~/.ssh/terra_gfo_id_ed25519";
+                              };
                       "sol" = { hostname     = "sol.local";
                                 user         = "toonn";
                                 identityFile = "~/.ssh/nix_id_ed25519";
