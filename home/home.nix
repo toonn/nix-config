@@ -85,32 +85,43 @@
                                )
                           else app;
     in with pkgs;
-       map provideApp [
-       ] ++ [ 
-         # anki
+       [ # anki
+         arbtt
+         bfpt
+         cdrtools
+         coldasdice
          curl
+         entr
          fd
+         (ffmpeg-full.override { libopus = libopus;
+                                 lame    = lame;
+                                 nonfreeLicensing = true;
+                                 fdkaacExtlib     = true;
+                                 fdk_aac          = fdk_aac;
+                               })
          gist
          gnupg
-         irssi
          # ifuse
+         imgursh
          inkscape
+         irssi
          # karabiner-elements
          kitty
          moreutils
          mupdf
-         # (pass.withExtensions (exts: with exts; [ pass-otp ]))
+         (pass.withExtensions (exts: with exts; [ pass-otp ]))
          popcorntime
          ranger
          ripgrep
          rsync
+         sshuttle
          time
          toxvpn
          unrar
          wire-desktop
          youtube-dl
          zbar
-       ];
+       ] ++ (if pkgs.stdenv.isDarwin then [ openemu ] else []);
 
   home.sessionVariables =
     let common = {
