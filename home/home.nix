@@ -147,11 +147,11 @@
       then darwin
       else linux;
 
-  # programs.direnv = { enable = true;
-  #                     enableFishIntegration = true;
-  #                     config = { };
-  #                     stdlib = "";
-  #                   };
+  programs.direnv = { enable = true;
+                      enableFishIntegration = true;
+                      # config = { };
+                      # stdlib = "";
+                    };
 
   # programs.firefox = { enable = true;
   #                      enableAdobeFlash = false;
