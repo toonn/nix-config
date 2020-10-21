@@ -153,27 +153,37 @@
                       # stdlib = "";
                     };
 
-  # programs.firefox = { enable = true;
-  #                      enableAdobeFlash = false;
-  #                      package = pkgs.firefox-unwrapped;
-  #                      extensions = with pkgs.nur.repos.rycee.firefox-addons;
-  #                        [ ublock-origin
-  #                          https-everywhere
-  #                          decentraleyes
-  #                          saka-key
-  #                          googleLinkFix
-  #                        ];
-  #                      profiles = {
-  #                        "toonn" = {
-  #                          id = 0;
-  #                          isDefault = true;
-  #                          name = "toonn";
-  #                          path = "toonn";
-  #                          # settings = {};
-  #                          # userChrome = "";
-  #                        };
-  #                      };
-  #                    };
+  programs.firefox = {
+    enable = true;
+    enableAdobeFlash = false;
+    package = pkgs.firefox-app;
+    extensions = with pkgs.nur.repos.rycee.firefox-addons;
+      [
+        darkreader
+        decentraleyes
+        multi-account-containers
+        #google-search-link-fix  # ClearURLs is a better alternative
+        https-everywhere
+        pkgs.clearurls  # Missing from rycee's addons Overlay
+        #saka-key  # Missing from rycee's addons Delisted from addon marketplace
+        temporary-containers
+        ublock-origin
+        vimium
+      ];
+    profiles = {
+      "cmyk" = {
+        id = 0;
+        isDefault = true;
+        name = "tonerlow";
+        path = "notonercartridge";
+        settings = import ~/src/nix-config/home/ff-userjs.nix;
+        userChrome = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+        userContent = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+      };
+    };
+  };
 
   programs.fish = { enable = true;
                     package = pkgs.fish;
