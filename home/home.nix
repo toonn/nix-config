@@ -126,8 +126,10 @@
   home.sessionVariables =
     let common = {
             # COLUMNS = 80;
+            EDITOR = "vim";
             # LS_COLORS = "";
-            RANGER_LOAD_DEFAULT_RC = "FALSE";
+            # RANGER_LOAD_DEFAULT_RC = "FALSE";
+            SHELL = "fish";
             VISUAL = "vim";
           };
         linux = common // {
