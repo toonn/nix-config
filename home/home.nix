@@ -6,18 +6,18 @@
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
-      ln -sf $HOME/src/dotfiles/bin  $HOME/bin
-      ln -sf $HOME/src/dotfiles/opt  $HOME/opt
-      ln -sf $HOME/src/dotfiles/tmux $HOME/.tmux
-      ln -sf $HOME/src/dotfiles/vim  $HOME/.vim
-      ln -sf $HOME/src/dotfiles/fish/functions \
-        ${config.xdg.configHome}/fish/functions
-      ln -sf $HOME/src/dotfiles/kitty \
-        ${config.xdg.configHome}/kitty
-      # ln -sf $HOME/src/dotfiles/mpv/scripts \
-      #   ${config.xdg.configHome}/mpv/scripts
-      ln -sf $HOME/src/dotfiles/ranger \
-        ${config.xdg.configHome}/ranger
+      ln -sfn $HOME/src/dotfiles/bin  $HOME/bin
+      ln -sfn $HOME/src/dotfiles/opt  $HOME/opt
+      ln -sfn $HOME/src/dotfiles/tmux $HOME/.tmux
+      ln -sfn $HOME/src/dotfiles/vim  $HOME/.vim
+      ln -sfn $HOME/src/dotfiles/fish/functions \
+        $HOME/.config/fish/functions
+      ln -sfn $HOME/src/dotfiles/kitty \
+        $HOME/.config/kitty
+      ln -sfn $HOME/src/dotfiles/mpv/scripts \
+        $HOME/.config/mpv/scripts
+      ln -sfn $HOME/src/dotfiles/ranger \
+        $HOME/.config/ranger
     '';
 
   home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
