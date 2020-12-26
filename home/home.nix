@@ -217,6 +217,20 @@
                      { lg = "log --graph --pretty=format:'%C(auto)%h -%d %s"
                           + " %Cgreen(%cr) %C(bold blue)<%an>%Creset'";
                        st = "status -sb";
+                       dirty = "!dirty() {"
+                             + " for repo in"
+                             + " $(fd -t d --maxdepth=2 '^\\.git$' -H \${@:-.}"
+                             + " --exec echo '{//}');"
+                             + " do"
+                             + " state=$(git -C $repo -c status.color=always"
+                             + " status -sb);"
+                             + " if test $(printf \"$state\" | wc -l) -gt 1;"
+                             + " then"
+                             + " printf \"$repo: $state\\n\\n\";"
+                             + " fi;"
+                             + " done"
+                             + " };"
+                             + " dirty";
                      };
                    ignores =
                      [ # Swap
