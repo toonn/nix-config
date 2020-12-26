@@ -94,6 +94,7 @@
        [ # anki
          arbtt
          bfpt
+         bitwarden-cli
          cdrtools
          coldasdice
          curl
