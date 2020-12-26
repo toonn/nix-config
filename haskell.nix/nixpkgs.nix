@@ -1,7 +1,7 @@
 let
   haskellNix = import (builtins.fetchTarball
     ( "https://github.com/input-output-hk/haskell.nix/archive/"
-    + "2f48630357ea61c5a231273a9cdf9e71f9653c81.tar.gz"
+    + "d014079ccee72d9fbd05e4f0af8c6481034283de.tar.gz"
     )) {};
 in
   haskellNix.pkgs

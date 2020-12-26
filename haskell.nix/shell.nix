@@ -2,6 +2,7 @@
 , haskellCompiler ? "ghc8102"
 , hsPkgs
 , for
+, buildInputs
 }:
 let
   haskell-nix = pkgs.haskell-nix;
@@ -11,20 +12,19 @@ in hsPkgs.shellFor {
   packages = ps: for;
 
   buildInputs =
-    (with pkgs; # Packages that don't work from hsPkgs for some reason
-    [ cabal-install
-    ]
-
-    ) ++ (map (p: stackage."${p}".components.exes."${p}")
+    (map (p: stackage."${p}".components.exes."${p}")
     [ "brittany"
       "ghcid"
       "ormolu"
     ]
-    );
+    ) ++ buildInputs;
 
   exactDeps = true;
 
-  tools = { fast-tags = "2.0.0"; };
+  tools = let index-state = "2020-12-02T00:00:00Z";
+    in { cabal = { version = "3.2.0.0"; inherit index-state; };
+         fast-tags = { version = "2.0.0"; inherit index-state; };
+       };
 
   withHoogle = true;
 }
