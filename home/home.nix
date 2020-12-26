@@ -21,6 +21,7 @@
     permittedInsecurePackages = [
         "openssl-1.0.2u"
       ];
+    zathura.useMupdf = true;
   };
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
