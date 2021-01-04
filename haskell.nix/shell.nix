@@ -2,7 +2,7 @@
 , haskellCompiler ? "ghc8102"
 , hsPkgs
 , for
-, buildInputs
+, buildInputs ? []
 }:
 let
   haskell-nix = pkgs.haskell-nix;
