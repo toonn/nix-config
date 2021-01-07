@@ -232,6 +232,12 @@
                              + " done"
                              + " };"
                              + " dirty";
+                       ignorefile = "!gi() {"
+                                  + " curl -sL"
+                                  + " https://www.toptal.com/developers"
+                                    + "/gitignore/api/$@"
+                                  + " ;};"
+                                  + " gi";
                      };
                    ignores =
                      [ # Swap
