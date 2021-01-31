@@ -122,6 +122,7 @@
          ripgrep
          rsync
          sshuttle
+         tailscale
          time
          toxvpn
          unrar
