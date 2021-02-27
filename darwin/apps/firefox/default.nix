@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     url =
       "https://download.mozilla.org/?product=firefox-latest&os=osx&lang=en-US";
     name = "${name}.dmg";
-    sha256 = "1xycm3v8ix1lg91qv3kwihqbvq877crx88jn9vqaczvzl1zrdbic";
+    sha256 = "04jslsfg073xb965hvbm7vdrdymkaiyyrgclv9qdpcyplis82rxc";
   };
 
   buildInputs = [ undmg ];
