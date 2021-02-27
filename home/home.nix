@@ -432,6 +432,7 @@
                     # disableConfirmationPrompt = true;
                     extraConfig = ''
                       set -g allow-rename on
+                      set -g set-titles on
                       set -ga terminal-overrides ",xterm-kitty:Tc"
                     '';
                     plugins = [ pkgs.tmuxPlugins.sensible ];
