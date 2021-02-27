@@ -98,6 +98,7 @@
          cdrtools
          coldasdice
          curl
+         dosage
          entr
          fd
          (ffmpeg-full.override { libopus = libopus;
