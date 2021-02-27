@@ -333,7 +333,7 @@
                   # sub-scale       = 0.6;
                   sub-font-size   = 27; # default 55
                   sub-border-size = 1.5; # default 3
-                  title           = "\${?pause==no:Playing}\${?pause==yes:Paused} - \${path}"; # for arbtt
+                  title           = "\${?pause==no:Playing}\${?pause==yes:Paused} - \${working-directory} \${path}"; # for arbtt
                   script-opts-append = "autocrop-auto=no";
                 };
        # profiles = { fast = { vo = "vdpau"; }; };
