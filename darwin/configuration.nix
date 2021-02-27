@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [ <home-manager/nix-darwin> ];
@@ -58,7 +58,7 @@
   networking.hostName = "terra";
 
   nixpkgs.config = {
-    allowUnfreePredicate = p: builtins.elem (pkgs.stdenv.lib.getName p) [
+    allowUnfreePredicate = p: builtins.elem (lib.getName p) [
         "joypixels"
       ];
     joypixels.acceptLicense = true;

@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
   nixpkgs.config = {
-    allowUnfreePredicate = p: builtins.elem (pkgs.stdenv.lib.getName p) [
+    allowUnfreePredicate = p: builtins.elem (lib.getName p) [
       "ffmpeg-full"
       "Firefox"
       "openemu"
@@ -41,7 +41,7 @@
     '';
 
   home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
-    (pkgs.stdenv.lib.strings.optionalString pkgs.stdenv.isDarwin
+    (lib.strings.optionalString pkgs.stdenv.isDarwin
       ''
         for app in $HOME/.nix-profile/Applications/*.app;
         do ln -sf $app $HOME/ApplicationsNix;
