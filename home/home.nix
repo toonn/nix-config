@@ -170,7 +170,6 @@
 
   programs.firefox = {
     enable = true;
-    enableAdobeFlash = false;
     package = pkgs.firefox-app;
     extensions = with pkgs.nur.repos.rycee.firefox-addons;
       [
