@@ -131,7 +131,8 @@
          youtube-dl
          zbar
        ] ++ (if pkgs.stdenv.isDarwin
-             then [ openemu
+             then [ kicad-app
+                    openemu
                     (vim_configurable.override { darwinSupport = true;
                                                  guiSupport = "no";
                                                  netBeansSupport = false;
