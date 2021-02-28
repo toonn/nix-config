@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, undmg }:
+{ stdenv, lib, fetchurl, undmg }:
 stdenv.mkDerivation rec {
   name = "firefox-app-${version}";
 
@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
     mv ${pname}.app $out/Applications
     '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Mozilla Firefox, free web browser (binary package)";
     homepage = "http://www.mozilla.org/firefox/";
     license = {

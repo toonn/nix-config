@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv, lib, fetchurl
 , unzip
 }:
 stdenv.mkDerivation rec {
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     mv OpenEmu.app $out/Applications
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Retro video game emulation for macOS";
     longDescription = ''
       OpenEmu is an open source project whose purpose is to bring macOS game

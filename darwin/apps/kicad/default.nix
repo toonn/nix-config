@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, lib, undmg }:
+{ stdenv, lib, fetchurl, undmg }:
 stdenv.mkDerivation rec {
   name = "kicad-app-${version}";
 
@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
     mv KiCad/* $out/'Application Support'/kicad
     '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Open Source Electronics Design Automation suite";
     homepage = "https://www.kicad-pcb.org/";
     longDescription = ''
