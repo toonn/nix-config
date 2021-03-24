@@ -92,7 +92,10 @@
   "geo.provider.use_gpsd" = false;
   "gfx.font_rendering.graphite.enabled" = false;
   "gfx.font_rendering.opentype_svg.enabled" = false;
-  "intl.accept_languages" = "en-US, en, nl-BE, nl";
+  ##
+  # Not much reason to include dutch?
+  "intl.accept_languages" = "en-US, en"; #, nl-BE, nl";
+  ##
   "intl.charset.fallback.override" = "windows-1252";
   "javascript.use_us_english_locale" = true;
   "lightweightThemes.selectedThemeID" = "firefox-compact-dark@mozilla.org";
