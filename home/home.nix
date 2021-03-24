@@ -181,7 +181,8 @@
         #google-search-link-fix  # ClearURLs is a better alternative
         https-everywhere
         pkgs.clearurls  # Missing from rycee's addons Overlay
-        #saka-key  # Missing from rycee's addons Delisted from addon marketplace
+        pkgs.custom-title  # Missing from rycee's addons Overlay
+        #saka-key  # Missing from rycee's addons
         temporary-containers
         ublock-origin
         vimium
@@ -192,6 +193,17 @@
         isDefault = true;
         name = "tonerlow";
         path = "notonercartridge";
+        settings = import ~/src/nix-config/home/ff-userjs.nix;
+        userChrome = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+        userContent = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+      };
+      "T8N" = {
+        id = 1;
+        isDefault = false;
+        name = "T8N";
+        path = "T8N";
         settings = import ~/src/nix-config/home/ff-userjs.nix;
         userChrome = builtins.readFile
           ~/src/dotfiles/ff-conf/chrome/userChrome.css;
