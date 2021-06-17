@@ -19,8 +19,20 @@ stdenv.mkDerivation rec {
       "87.0" = {
         sha256 = "1cih6i2p53mchqqrw2wlqhfka59p5qm4a7d0zc9ism0gvq5zpiz2";
       };
+      "88.0" = {
+        sha256 = "0cqgizwfhh9vh49swpi2vbdrqr5ri6jlir29bsf397ijvgss24lf";
+      };
+      "88.0.1" = {
+        sha256 = "0z9p6jng7is8pq21dffjr6mfk81q08v99fwmhj22g9b1miqxrvcz";
+      };
+      "89.0" = {
+        sha256 = "0z86q1hlwmhfwrddhapwiy8qrn3v03d7nbsnzhnkr3fc9vz58ga3";
+      };
+      "89.0.1" = {
+        sha256 = "02pvwsjaz60graha7hz25z3kx24ycvcfgwpzzdv5xpb3cfmlvis9";
+      };
     };
-    latest = versions."87.0";
+    latest = versions."89.0.1";
   in fetchurl {
     inherit (latest) sha256;
     url =
