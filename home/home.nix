@@ -113,6 +113,7 @@
          imgursh
          inkscape
          irssi
+         jq # Specifically for bitwarden
          # karabiner-elements
          kitty
          moreutils
@@ -175,6 +176,7 @@
     package = pkgs.firefox-app;
     extensions = with pkgs.nur.repos.rycee.firefox-addons;
       [
+        bitwarden
         darkreader
         decentraleyes
         multi-account-containers
