@@ -37,8 +37,11 @@ stdenv.mkDerivation rec {
       "90.0" = {
         sha256 = "0qw8biv5p7j1gqz0ziadj7hd0kh86nlndwxvc39ifq52w8w81h6v";
       };
+      "90.0.1" = {
+        sha256 = "018zfpgc16k7g6hpixv72f21haknsfvrhahi9jzfbisj5g2bkhbn";
+      };
     };
-    latest = versions."90.0";
+    latest = versions."90.0.1";
   in fetchurl {
     inherit (latest) sha256;
     url =
