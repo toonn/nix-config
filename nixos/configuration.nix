@@ -72,6 +72,18 @@
 
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
+  users.users.toonn = {
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    isNormalUser = true;
+    shell = with pkgs; fish;
+  };
+
+  home-manager.users.toonn = import /home/toonn/.config/nixpkgs/home.nix;
+
+  environment.shells = with pkgs; [ fish ];
+  environment.systemPackages = with pkgs; [
+    vim
+  ];
 
   services.bitlbee = { enable = true;
                        plugins = with pkgs; [ bitlbee-facebook ];
