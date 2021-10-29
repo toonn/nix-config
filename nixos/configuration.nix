@@ -9,64 +9,43 @@
       /home/toonn/src/nix-config/mdns-publisher.nix
     ];
 
-  nixpkgs.config = { allowUnfree = true; };
+  nixpkgs = {
+    config.allowUnfreePredicate = p: builtins.elem (pkgs.lib.getName p) [
+      "broadcom-sta"
+    ];
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda";
+    overlays = [
+      (import /home/toonn/src/nix-config/overlays/mdns-publisher.nix)
+    ];
+  };
 
-  boot.kernelParams = [ "cryptdevice=/dev/sda2:cruithne_vg"
-                        "crypto=ripemd160:\"aes-cbc-essiv:sha256\":256:0:"
-                      ];
-  boot.initrd.extraUtilsCommands = ''
-    copy_bin_and_libs ${pkgs.cryptsetup}/bin/cryptsetup
-    '';
-  boot.initrd.extraUtilsCommandsTest = ''
-    $out/bin/cryptsetup --version
-    '';
-  boot.initrd.kernelModules = [ "dm-crypt" "cbc" ];
-  boot.initrd.preLVMCommands = ''
-    /bin/cryptsetup --type plain open /dev/sda2 cruithne_vg
-    '';
-  boot.initrd.supportedFilesystems = [ "btrfs" ];
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  fileSystems."/".options = [ "compress=lzo" ];
-  fileSystems."/home".options = [ "compress=lzo" ];
+  fileSystems."/".options = [ "compress=zstd" ];
 
-  hardware.enableAllFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
 
-  nix.buildCores = 1;
-  nix.maxJobs = 1;
-
-  networking.hostName = "cruithne";
-  networking.wireless.enable = true;  # Enables wpa_supplicant.
-
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "dvorak";
-    defaultLocale = "en_DK.UTF-8";
-  };
+  networking.hostName = "yorp";
+  # Connman instead
+  # networking.wireless = { enable = true;  # Enables wpa_supplicant.
+  #                         interfaces = [ "wls4" ];
+  #                       };
 
   time.timeZone = "Europe/Amsterdam";
 
-  environment.shells = with pkgs; [ fish ];
+  # The global useDHCP flag is deprecated, therefore explicitly set to false
+  # here.  Per-interface useDHCP will be mandatory in the future, so this
+  # generated config replicates the default behaviour.
+  networking.useDHCP = false;
+  networking.interfaces.ens5.useDHCP = true;
 
-  environment.systemPackages = with pkgs; [
-    vim
-    cryptsetup
-  ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_DK.UTF-8";
+  console = { font = "Lat2-Terminus16";
+              keyMap = "dvorak";
+            };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
