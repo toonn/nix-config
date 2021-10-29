@@ -83,6 +83,22 @@
     vim
   ];
 
+  # Enable screen bright fn keys together with services.actkbd
+  programs.light.enable = true;
+
+  # Bind fn brightness keys to light utility commands
+  services.actkbd = {
+    enable = true;
+    bindings = [ { keys = [ 59 464 ]; # fn pressed
+                   events = [ "key" ];
+                   command = "/run/current-system/sw/bin/light -U 10";
+                 }
+                 { keys = [ 60 464 ]; # fn pressed
+                   events = [ "key" ];
+                   command = "/run/current-system/sw/bin/light -A 10";
+                 }
+               ];
+  };
   services.avahi = { allowPointToPoint = true;
                      enable = true;
                      ipv6 = false;
