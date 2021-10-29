@@ -119,6 +119,31 @@
                        libpurple_plugins = with pkgs; [ purple-matrix ];
                      };
 
+  services.borgbackup.jobs =
+    let job = options: { compression = "auto,zstd";
+                         encryption.mode = "none";
+                         group = "users";
+                         persistent = true;
+                         prune.keep = { within = "1d";
+                                        daily = 1;
+                                        weekly = 2;
+                                        monthly = 2;
+                                      };
+                         randomizedDelaySec = "10 min";
+                         repo = "toxsol:/vault/borgbackups";
+                         restartSec = "10 min";
+                         startAt = "daily";
+                         user = "toonn";
+                       } // options;
+    in {
+    fitnessroutine = job { paths = "/home/toonn/fitnessroutine"; };
+    irclogs = job { paths = "/home/toonn/.irclogs";
+                    startAt = "hourly";
+                  };
+    irssiconfig = job { paths = "/home/toonn/.irssi"; };
+    taskell = job { paths = "/home/toonn/taskell.md"; };
+  };
+
   services.connman = { enable = true;
                        enableVPN = false;
                        # wpa_supplicant issue should be fixed in 21.11
