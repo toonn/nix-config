@@ -119,6 +119,16 @@
                        libpurple_plugins = with pkgs; [ purple-matrix ];
                      };
 
+  services.connman = { enable = true;
+                       enableVPN = false;
+                       # wpa_supplicant issue should be fixed in 21.11
+                       wifi.backend = "iwd";
+                     };
+
+  services.openssh.enable = true;
+
+  services.tailscale.enable = true;
+
   services.toxvpn = { enable = true;
                       localip = "10.0.0.10";
                     };
