@@ -116,6 +116,7 @@
 
   services.bitlbee = { enable = true;
                        plugins = with pkgs; [ bitlbee-facebook ];
+                       libpurple_plugins = with pkgs; [ purple-matrix ];
                      };
 
   services.toxvpn = { enable = true;
