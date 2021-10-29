@@ -70,8 +70,6 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
   users.users.toonn = {
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     isNormalUser = true;
@@ -85,6 +83,21 @@
     vim
   ];
 
+  services.avahi = { allowPointToPoint = true;
+                     enable = true;
+                     ipv6 = false;
+                     # This adds mdns_minimal, which only works for 169.254.x.x
+                     # and not subdomains, dropping in favor of adding mdns4 to
+                     # nsswitch hosts manually.
+                     # nssmdns = true;
+                     publish = { enable = true;
+                                 addresses = true;
+                               };
+                     # Necessary because mDNS requests do not cross subnet
+                     # boundaries.
+                     # reflector = true;
+                   };
+
   services.bitlbee = { enable = true;
                        plugins = with pkgs; [ bitlbee-facebook ];
                      };
@@ -93,17 +106,8 @@
                       localip = "10.0.0.10";
                     };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "dvorak";
-  services.xserver.xkbOptions = "caps:escape";
-  services.xserver.displayManager.slim = {
-    enable = true;
-    autoLogin = false;
-    defaultUser = "toonn";
-  };
-  services.xserver.windowManager.xmonad.enable = false;
-  services.xserver.windowManager.openbox.enable = true;
+  system.nssModules = with pkgs; [ nssmdns ];
+  system.nssDatabases.hosts = [ "mdns4 [NOTFOUND=return]" ];
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
