@@ -47,14 +47,24 @@
               keyMap = "dvorak";
             };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  services.xserver = {
+    enable = true;
+    layout = "dvorak";
+    xkbOptions = "caps:escape";
+    displayManager = { defaultSession = "none+openbox";
+                       lightdm = { enable = true;
+                                   greeters.mini = { enable = true;
+                                                     user = "toonn";
+                                                   };
+                                 };
+                     };
+    windowManager.openbox.enable = true;
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
+  };
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
