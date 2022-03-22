@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     sha256 = "02fq4byrg1sdvk4dcjxxagdri4n9vl55p7mqdschjxc71vqawayb";
   };
 
-  buildInputs = [ undmg ];
+  nativeBuildInputs = [ undmg ];
 
   # The dmg contains directories and symlinks, the default unpackPhase tries to
   # cd into the only directory produced so it fails.
