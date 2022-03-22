@@ -373,7 +373,7 @@
 
   programs.ssh =
     { enable = true;
-      # extraConfig = "";
+      extraConfig = "AddKeysToAgent yes"; # Add key to the agent on first use
       # extraOptionOverrides = { };
       matchBlocks = { "g5" = { hostname = "192.168.0.9";
                                user     = "toon";
