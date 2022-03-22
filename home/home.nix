@@ -222,15 +222,23 @@
 
   programs.fish = { enable = true;
                     package = pkgs.fish;
-                    # shellInit = ''
-                    #     if set -l ind \
-                    #          ( contains -i -- \
-                    #              /nix/var/nix/profiles/per-user/root/channels \
-                    #              $NIX_PATH \
-                    #          )
-                    #       set -e NIX_PATH[$ind]
-                    #     end
-                    #   '';
+                    shellInit = let fishUserPaths =
+                        builtins.concatStringsSep " "
+                        [ "$HOME/.nix-profile/bin"
+                          "/run/current-system/sw/bin"
+                          "/nix/var/nix/profiles/default/bin"
+                        ];
+                      in ''
+                      # if set -l ind \
+                      #      ( contains -i -- \
+                      #          /nix/var/nix/profiles/per-user/root/channels \
+                      #          $NIX_PATH \
+                      #      )
+                      #   set -e NIX_PATH[$ind]
+                      # end
+
+                      set fish_user_paths '${fishUserPaths}'
+                    '';
                   };
   
   programs.git = { enable = true;
