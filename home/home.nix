@@ -144,6 +144,8 @@
                   ]
              else []);
 
+  home.sessionPath = [ "$HOME/bin" "$HOME/opt" ];
+
   home.sessionVariables =
     let common = {
             # COLUMNS = 80;
