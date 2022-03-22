@@ -1,5 +1,5 @@
 { pkgs ? import ./nixpkgs.nix
-, haskellCompiler ? "ghc8102"
+, haskellCompiler ? "ghc8107"
 , hsPkgs
 , for
 , buildInputs ? []
