@@ -92,6 +92,7 @@
                           else app;
     in with pkgs;
        [ # anki
+         alass
          arbtt
          bfpt
          bitwarden-cli
@@ -123,8 +124,10 @@
          ranger
          ripgrep
          rsync
+         sequoia
          sshuttle
          tailscale
+         taskell
          time
          toxvpn
          unrar
