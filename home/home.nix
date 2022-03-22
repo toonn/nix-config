@@ -435,6 +435,10 @@
                                                      "publickey,password";
                                                  };
                                 };
+                      "yorp" = { hostname = "yorp.local";
+                                user         = "toonn";
+                                identityFile = "~/.ssh/yorp_id_ed25519";
+                              };
                       "helium" = { hostname = "ssh.esat.kuleuven.be";
                                    user = "r0258654";
                                  };
