@@ -93,7 +93,8 @@
   "gfx.font_rendering.graphite.enabled" = false;
   "gfx.font_rendering.opentype_svg.enabled" = false;
   ##
-  # Not much reason to include dutch?
+  # Not much reason to include dutch? Bank and airline sites seem to be only
+  # ones affected so far.
   "intl.accept_languages" = "en-US, en"; #, nl-BE, nl";
   ##
   "intl.charset.fallback.override" = "windows-1252";
@@ -191,6 +192,7 @@
   "signon.formlessCapture.enabled" = false;
   "toolkit.coverage.endpoint.base" = "";
   "toolkit.coverage.opt-out" = true;
+  "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
   "toolkit.telemetry.archive.enabled" = false;
   "toolkit.telemetry.bhrPing.enabled" = false;
   "toolkit.telemetry.coverage.opt-out" = true;
