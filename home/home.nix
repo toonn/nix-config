@@ -125,7 +125,7 @@
          ranger
          ripgrep
          rsync
-         sequoia
+         (sequoia.override { pythonPackages = python3Packages; })
          sshuttle
          taskell
          time
