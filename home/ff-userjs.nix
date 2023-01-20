@@ -70,6 +70,7 @@
   "dom.event.clipboardevents.enabled" = false;
   "dom.ipc.plugins.flash.subprocess.crashreporter.enabled" = false;
   "dom.push.enabled" = false;
+  "dom.security.https_only_mode" = true;
   "dom.targetBlankNoOpener.enabled" = true;
   "dom.webaudio.enabled" = false;
   "extensions.blocklist.enabled" = true;

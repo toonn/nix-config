@@ -41,8 +41,7 @@
     '';
 
   home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
-    (lib.strings.optionalString pkgs.stdenv.isDarwin
-      ''
+    (lib.strings.optionalString pkgs.stdenv.isDarwin ''
         for app in $HOME/.nix-profile/Applications/*.app;
         do ln -sf $app $HOME/ApplicationsNix;
         done
@@ -96,6 +95,7 @@
          arbtt
          bfpt
          bitwarden-cli
+         cachix
          cdrtools
          coldasdice
          curl
@@ -110,13 +110,14 @@
                                })
          gist
          gnupg
-         # ifuse
+         ifuse
          imgursh
          inkscape
          irssi
          jq # Specifically for bitwarden
          # karabiner-elements
          kitty
+         lorri
          moreutils
          mupdf
          (pass.withExtensions (exts: with exts; [ pass-otp ]))
@@ -126,23 +127,24 @@
          rsync
          sequoia
          sshuttle
-         tailscale
          taskell
          time
          toxvpn
          unrar
          wire-desktop
          youtube-dl
+         yt-dlp-light
          zbar
        ] ++ (if pkgs.stdenv.isDarwin
              then [ kicad-app
                     openemu
                     (vim_configurable.override { darwinSupport = true;
                                                  guiSupport = "no";
-                                                 netBeansSupport = false;
+                                                 netbeansSupport = false;
                                                })
                   ]
-             else []);
+             else [ tailscale # Not available on darwin
+                  ]);
 
   home.sessionPath = [ "$HOME/bin" "$HOME/opt" ];
 
@@ -170,6 +172,10 @@
       then darwin
       else linux;
 
+  # Caveat Emptor: Changing stateVersion may require manual data conversion or
+  #                moving of files.
+  home.stateVersion = "22.11";
+
   programs.direnv = { enable = true;
                       enableFishIntegration = true;
                       # config = { };
@@ -186,7 +192,7 @@
         decentraleyes
         multi-account-containers
         #google-search-link-fix  # ClearURLs is a better alternative
-        https-everywhere
+        #https-everywhere  # Deprecated in favor of native https_only_mode
         pkgs.clearurls  # Missing from rycee's addons Overlay
         pkgs.custom-title  # Missing from rycee's addons Overlay
         #saka-key  # Missing from rycee's addons
@@ -212,6 +218,28 @@
         name = "T8N";
         path = "T8N";
         settings = import ~/src/nix-config/home/ff-userjs.nix;
+        userChrome = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+        userContent = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+      };
+      "WebGL" = {
+        id = 2;
+        isDefault = false;
+        name = "WebGL";
+        path = "WebGL";
+        settings = import ~/src/nix-config/home/ff-webgl-userjs.nix;
+        userChrome = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+        userContent = builtins.readFile
+          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+      };
+      "Jitsi" = {
+        id = 3;
+        isDefault = false;
+        name = "Jitsi";
+        path = "Jitsi";
+        settings = import ~/src/nix-config/home/ff-webgl-userjs.nix;
         userChrome = builtins.readFile
           ~/src/dotfiles/ff-conf/chrome/userChrome.css;
         userContent = builtins.readFile
@@ -304,7 +332,7 @@
                    userName = "toonn";
                  };
 
-  programs.info.enable = true;
+  programs.info.enable = false;
 
   # programs.irssi = { enable = true;
   #                    aliases = { };
@@ -479,7 +507,7 @@
   #                  # settings = { };
   #                };
 
-  programs.zathura = { enable = true;
+  programs.zathura = { enable = ! pkgs.stdenv.isDarwin; # Broken on darwin
                        # options = { default-bg = "#000000";
                        #             default-fg = "#FFFFFF";
                        #           };
