@@ -14,10 +14,10 @@ self: super: {
 
         meta = {
           description = "This script uses the lavfi cropdetect filter to"
-                     ++ " automatically insert a crop filter with appropriate"
-                     ++ " parameters for the currently playing video.";
+                      + " automatically insert a crop filter with appropriate"
+                      + " parameters for the currently playing video.";
           homepage = "https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/"
-                  ++ "autocrop.lua";
+                   + "autocrop.lua";
           maintainers = [ lib.maintainers.toonn ];
           license = lib.licenses.gpl2Plus;
         };
@@ -39,7 +39,7 @@ self: super: {
 
         meta = {
           description = "Allows you to perform video rotation which perfectly"
-                     ++ " cycles through all 360 degrees without any glitches.";
+                      + " cycles through all 360 degrees without any glitches.";
           homepage = "https://github.com/SteveJobzniak/mpv-tools";
           maintainers = [ lib.maintainers.toonn ];
           license = lib.licenses.gpl2Plus;
