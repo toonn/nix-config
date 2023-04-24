@@ -26,18 +26,16 @@
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
-      ln -sfn $HOME/src/dotfiles/bin  $HOME/bin
-      ln -sfn $HOME/src/dotfiles/opt  $HOME/opt
-      ln -sfn $HOME/src/dotfiles/tmux $HOME/.tmux
-      ln -sfn $HOME/src/dotfiles/vim  $HOME/.vim
-      ln -sfn $HOME/src/dotfiles/fish/functions \
-        $HOME/.config/fish/functions
-      ln -sfn $HOME/src/dotfiles/kitty \
-        $HOME/.config/kitty
-      ln -sfn $HOME/src/dotfiles/mpv/scripts \
-        $HOME/.config/mpv/scripts
-      ln -sfn $HOME/src/dotfiles/ranger \
-        $HOME/.config/ranger
+      ln -sfn $HOME/src/dotfiles/bin            $HOME/bin
+      ln -sfn $HOME/src/dotfiles/opt            $HOME/opt
+      ln -sfn $HOME/src/dotfiles/tmux           $HOME/.tmux
+      ln -sfn $HOME/src/dotfiles/vim            $HOME/.vim
+      ln -sfn $HOME/src/dotfiles/fish/functions $HOME/.config/fish/functions
+      ln -sfn $HOME/src/dotfiles/isync/mbsyncrc $HOME/.mbsyncrc
+      ln -sfn $HOME/src/dotfiles/kitty          $HOME/.config/kitty
+      ln -sfn $HOME/src/dotfiles/mpv/scripts    $HOME/.config/mpv/scripts
+      ln -sfn $HOME/src/dotfiles/neomutt        $HOME/.config/neomutt
+      ln -sfn $HOME/src/dotfiles/ranger         $HOME/.config/ranger
     '';
 
   home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
@@ -114,12 +112,14 @@
          imgursh
          inkscape
          irssi
+         isync # IMAP synchronization
          jq # Specifically for bitwarden
          # karabiner-elements
          kitty
          lorri
          moreutils
          mupdf
+         neomutt
          (pass.withExtensions (exts: with exts; [ pass-otp ]))
          popcorntime
          ranger
