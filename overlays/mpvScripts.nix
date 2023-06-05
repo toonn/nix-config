@@ -23,13 +23,16 @@ self: super: {
         };
       }) {};
 
-
   mpvScripts.cycle-video-rotate = super.callPackage
     ({ stdenv, fetchurl, mpv-unwrapped, lib }: 
       stdenv.mkDerivation rec {
         pname = "mpv-cycle-video-rotate";
         version = mpv-unwrapped.version;
-        src = "/Users/toonn/src/dotfiles/mpv/scripts/cycle-video-rotate.lua";
+        src = fetchurl {
+          url =
+            "https://raw.githubusercontent.com/VideoPlayerCode/mpv-tools/master/scripts/cycle-video-rotate.lua";
+          sha256 = "0vj53knl08wjrvlmlnkjy5qk7rrlsd0sg9548i020wc4nscz8bk7";
+        };
         dontBuild = true;
         dontUnpack = true;
         installPhase = ''
