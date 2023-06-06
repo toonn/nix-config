@@ -120,6 +120,9 @@
                                    TrackpadRightClick = true;
                                    TrackpadThreeFingerDrag = true;
                                  };
+                      CustomUserPreferences = {
+                        "org.gpgtools.common" = { UseKeychain = false; };
+                      };
                     };
 
   system.activationScripts.userDefaults.text = ''
