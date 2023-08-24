@@ -151,6 +151,8 @@ in {
                      # nssmdns = true;
                      publish = { enable = true;
                                  addresses = true;
+                                 # Needed for mdns-publiher
+                                 # userServices = true;
                                };
                      # Necessary because mDNS requests do not cross subnet
                      # boundaries.
@@ -204,6 +206,20 @@ in {
   #                     # Doesn't seem to be fixed in 21.11
   #                     #wifi.backend = "iwd";
   #                   };
+
+  services.mdns-publisher.names =
+    map (sub: sub + ".${config.networking.hostName}.local")
+        [ "32p"
+          "ggn"
+          "ipt"
+          "mam"
+          "mercury"
+          "nix-cache"
+          "pb"
+          "pluto"
+          "selfoss"
+          "vermaelens-projects"
+        ];
 
   services.openssh.enable = true;
 
