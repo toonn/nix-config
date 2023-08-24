@@ -223,6 +223,29 @@ in {
 
   services.openssh.enable = true;
 
+  networking.firewall.allowedTCPPorts = [ 80 ];
+  services.nginx = {
+    enable = true;
+    upstreams.sol.servers = {
+      "100.111.249.9" = {};
+      "10.0.0.5".backup = true;
+    };
+    virtualHosts = {
+      "*.yorp.local" = {
+        extraConfig = ''
+          default_type application/json;
+
+          location / {
+            proxy_buffering off;
+            proxy_pass http://sol;
+            fastcgi_read_timeout 120;
+            proxy_set_header Host $host;
+          }
+        '';
+      };
+    };
+  };
+
   services.tailscale.enable = true;
 
   services.toxvpn = { enable = true;
