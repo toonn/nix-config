@@ -11,6 +11,14 @@ in {
     ];
 
   nix = {
+    buildMachines = [ { hostName = "darwin-build-box.winter.cafe";
+                        maxJobs = 4;
+                        sshKey = "/home/toonn/.ssh/darwin-build-box.ed25519";
+                        sshUser = "toonn";
+                        systems = [ "aarch64-darwin" "x86_64-darwin" ];
+                      }
+                    ];
+    distributedBuilds = true;
     settings = {
       # Haskell.nix cache
       trusted-public-keys = [
@@ -103,6 +111,10 @@ in {
 
   # Enable screen bright fn keys together with services.actkbd
   programs.light.enable = true;
+
+  # Darwin-build-box public key fingerprint
+  programs.ssh.knownHosts."darwin-build-box.winter.cafe".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB0io9E0eXiDIEHvsibXOxOPveSjUPIr1RnNKbUkw3fD";
 
   # Bind fn brightness keys to light utility commands
   services.actkbd = {
