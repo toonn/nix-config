@@ -7,7 +7,7 @@ in {
       <home-manager/nixos>
       (nix-config-repo + "/modules/borgbackup/borgbackup.nix")
       (nix-config-repo + "/modules/bitlbee.nix")
-      /home/toonn/src/nix-config/mdns-publisher.nix
+      (nix-config-repo + "/modules/mdns-publisher.nix")
     ];
 
   nixpkgs = {
