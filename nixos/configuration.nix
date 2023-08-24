@@ -68,7 +68,7 @@ in {
   services.xserver = {
     enable = true;
     layout = "dvorak";
-    xkbOptions = "caps:escape";
+    xkbOptions = "caps:escape,compose:super_r";
     displayManager = { defaultSession = "none+openbox";
                        lightdm = { enable = true;
                                    greeters.mini = { enable = true;
