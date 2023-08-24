@@ -49,6 +49,7 @@ in {
   # networking.wireless = { enable = true;  # Enables wpa_supplicant.
   #                         interfaces = [ "wls4" ];
   #                       };
+  networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Amsterdam";
 
@@ -88,7 +89,7 @@ in {
   hardware.pulseaudio.enable = true;
 
   users.users.toonn = {
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     isNormalUser = true;
     shell = with pkgs; fish;
   };
@@ -161,11 +162,18 @@ in {
     taskell = job { paths = "/home/toonn/taskell.md"; };
   };
 
-  services.connman = { enable = true;
-                       enableVPN = false;
-                       # wpa_supplicant issue should be fixed in 21.11
-                       wifi.backend = "iwd";
-                     };
+
+  # Default conflicts with connman
+  networking.dhcpcd.enable = false;
+
+  #networking.wireless.enable = true;
+
+  #services.connman = { enable = true;
+  #                     #enableVPN = false; # default enabled as a test
+  #                     # wpa_supplicant issue should be fixed in 21.11
+  #                     # Doesn't seem to be fixed in 21.11
+  #                     #wifi.backend = "iwd";
+  #                   };
 
   services.openssh.enable = true;
 
