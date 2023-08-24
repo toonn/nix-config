@@ -104,8 +104,14 @@ in {
   services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # # This enables ALSA, unless hardware.pulseaudio is enabled.
+  # sound.enable = true;
+  # # This replaces ALSA with PulseAudio
+  # hardware.pulseaudio.enable = true;
+  services.pipewire = { audio.enable = true;
+                        enable = true;
+                        pulse.enable = true;
+                      };
 
   users.users.toonn = {
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
