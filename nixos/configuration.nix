@@ -129,16 +129,18 @@ in {
 
   # Bind fn brightness keys to light utility commands
   services.actkbd = {
+    # /dev/input/event7 seems to be the keyboard
+    bindings = let light = "${lib.getBin pkgs.light}/bin/light";
+                in [ { keys = [ 224 ];
+                       events = [ "key" ];
+                       command = "${light} -U 5";
+                     }
+                     { keys = [ 225 ];
+                       events = [ "key" ];
+                       command = "${light} -A 5";
+                     }
+                   ];
     enable = true;
-    bindings = [ { keys = [ 59 464 ]; # fn pressed
-                   events = [ "key" ];
-                   command = "/run/current-system/sw/bin/light -U 10";
-                 }
-                 { keys = [ 60 464 ]; # fn pressed
-                   events = [ "key" ];
-                   command = "/run/current-system/sw/bin/light -A 10";
-                 }
-               ];
   };
   services.avahi = { allowPointToPoint = true;
                      enable = true;
