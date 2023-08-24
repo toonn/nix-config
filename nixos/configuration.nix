@@ -30,7 +30,7 @@ in {
     };
 
     overlays = [
-      (import /home/toonn/src/nix-config/overlays/mdns-publisher.nix)
+      (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
     ];
   };
 
