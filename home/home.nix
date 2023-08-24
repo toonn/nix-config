@@ -334,6 +334,7 @@
 
   programs.info.enable = false;
 
+  # Can't use this because I want my configuration in dotfiles.
   # programs.irssi = { enable = true;
   #                    aliases = { };
   #                    networks =
