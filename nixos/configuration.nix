@@ -142,7 +142,7 @@ in {
                    ];
     enable = true;
   };
-  services.avahi = { allowPointToPoint = true;
+  services.avahi = { # allowPointToPoint = true;
                      enable = true;
                      ipv6 = false;
                      # This adds mdns_minimal, which only works for 169.254.x.x
@@ -214,7 +214,7 @@ in {
                     };
 
   system.nssModules = with pkgs; [ nssmdns ];
-  system.nssDatabases.hosts = [ "mdns4 [NOTFOUND=return]" ];
+  system.nssDatabases.hosts = [ "mdns6 [NOTFOUND=return]" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
