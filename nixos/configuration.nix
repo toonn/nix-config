@@ -86,7 +86,18 @@ in {
                      };
     windowManager.openbox.enable = true;
     # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
+    # libinput = { enable = true;
+    #              touchpad.naturalScrolling = true;
+    #            };
+
+    # Libinput doesn't do naturalScrolling
+    synaptics = { enable = true;
+                  fingersMap = [ 1 3 2 ];
+                  horizEdgeScroll = false;
+                  scrollDelta = -26;
+                  twoFingerScroll = true;
+                  vertEdgeScroll = false;
+                };
   };
 
   # Enable CUPS to print documents.
