@@ -187,6 +187,11 @@ in {
     taskell = job { paths = "/home/toonn/taskell.md"; };
   };
 
+  services.flatpak.enable = true;
+  # Requirement for Flatpak
+  xdg.portal = { enable = true;
+                 extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+               };
 
   # Default conflicts with connman
   networking.dhcpcd.enable = false;
