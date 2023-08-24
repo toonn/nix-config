@@ -10,6 +10,16 @@ in {
       (nix-config-repo + "/modules/mdns-publisher.nix")
     ];
 
+  nix = {
+    settings = {
+      # Haskell.nix cache
+      trusted-public-keys = [
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      ];
+      substituters = [ "https://cache.iog.io" ];
+    };
+  };
+
   nixpkgs = {
     config.allowUnfreePredicate = p: builtins.elem (pkgs.lib.getName p) [
       "broadcom-sta"
