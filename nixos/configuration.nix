@@ -21,9 +21,13 @@ in {
   };
 
   nixpkgs = {
-    config.allowUnfreePredicate = p: builtins.elem (pkgs.lib.getName p) [
-      "broadcom-sta"
-    ];
+    config = {
+      allowUnfreePredicate = p: builtins.elem (pkgs.lib.getName p) [
+        "broadcom-sta"
+        "joypixels"
+      ];
+      joypixels.acceptLicense = true;
+    };
 
     overlays = [
       (import /home/toonn/src/nix-config/overlays/mdns-publisher.nix)
@@ -35,6 +39,8 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems."/".options = [ "compress=zstd" ];
+
+  fonts.fonts = with pkgs; [ joypixels ];
 
   hardware.cpu.intel.updateMicrocode = true;
 
