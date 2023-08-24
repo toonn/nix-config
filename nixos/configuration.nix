@@ -5,7 +5,7 @@ in {
   imports =
     [ /etc/nixos/hardware-configuration.nix
       <home-manager/nixos>
-      (nix-config-repo + "/overlays/borgbackup/borgbackup.nix")
+      (nix-config-repo + "/modules/borgbackup/borgbackup.nix")
       (builtins.fetchurl { url = "https://raw.githubusercontent.com/NixOS/nixpkgs/f4c69e198ce8a8208995e43133d4c32d2045a587/nixos/modules/services/networking/bitlbee.nix"; sha256 = "1d120xrhq6hzn2rnhqh69dzs4gy6wb5pywni13ir4ldkrxfx40yw"; })
       /home/toonn/src/nix-config/mdns-publisher.nix
     ];
