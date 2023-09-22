@@ -499,7 +499,9 @@
                       # From terra:
                       "github" = { hostname = "github.com";
                                    user = "git";
-                                   identityFile = "~/.ssh/terra_gh_id_ed25519";
+                                   identityFile = [ "~/.ssh/terra_gh_id_ed25519"
+                                                    "~/.ssh/yorp_gh_id_ed25519"
+                                                  ];
                                    extraOptions = { preferredAuthentications =
                                                       "publickey";
                                                   };
