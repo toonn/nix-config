@@ -548,6 +548,15 @@
                                  user         = "r0258654";
                                  extraOptions = { hostKeyAlias = "lint"; };
                                };
+                      # To avoid passing the path to the key file
+                      "darwin-build-box" = {
+                        hostname     = "darwin-build-box.winter.cafe";
+                        user         = "toonn";
+                        identityFile = "~/.ssh/darwin-build-box_id_ed25519";
+                        extraOptions = { preferredAuthentications =
+                                           "publickey";
+                                       };
+                      };
                     };
     };
 
