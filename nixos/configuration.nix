@@ -436,11 +436,13 @@ in {
     map (sub: sub + ".${config.networking.hostName}.local")
         [ "32p"
           "ggn"
+          "immich"
           "ipt"
           "mam"
           "mercury"
           "nix-cache"
           "pb"
+          "photoprism"
           "pluto"
           "selfoss"
           "vermaelens-projects"
