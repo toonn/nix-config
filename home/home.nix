@@ -417,7 +417,11 @@
                        "Icon?"
                        "Thumbs.db"
                      ];
-                   # signing = null;
+                   signing = {
+                     # No longer has a default value?
+                     key = null; # Select key based on commit author
+                     signByDefault = true;
+                   };
                    userEmail = "toonn@toonn.io";
                    userName = "toonn";
                  };
