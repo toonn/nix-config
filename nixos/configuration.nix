@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let nix-config-repo = /home/toonn/src/nix-config;
 in {
   disabledModules = [ "services/backup/borgbackup.nix"
@@ -52,7 +52,7 @@ in {
 
   fileSystems."/".options = [ "compress=zstd" ];
 
-  fonts.fonts = with pkgs; [ joypixels ];
+  fonts.packages = with pkgs; [ joypixels ];
 
   hardware.cpu.intel.updateMicrocode = true;
 
@@ -79,8 +79,11 @@ in {
 
   services.xserver = {
     enable = true;
-    layout = "dvorak";
-    xkbOptions = "caps:escape,compose:super_r";
+    xkb = {
+      layout = "us";
+      variant = "dvorak";
+      options = "caps:escape,compose:rwin";
+    };
     displayManager = { defaultSession = "none+openbox";
                        lightdm = { enable = true;
                                    greeters.mini = { enable = true;
@@ -125,11 +128,6 @@ in {
 
   home-manager.users.toonn = import /home/toonn/.config/nixpkgs/home.nix;
 
-  environment.shells = with pkgs; [ fish ];
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
-
   # NixOS doesn't facilitate setting up systemd user generators
   environment = {
     etc = {
@@ -148,7 +146,16 @@ in {
     #             "$1"/default.target.wants/"$instance"
     #         done
     #       '';
+    };
+    shells = with pkgs; [ fish ];
+    systemPackages = with pkgs; [
+      vim
+    ];
   };
+
+  # Otherwise errors about users.toonn.shell being set to fish, even though the
+  # shell and therefore the Nix paths are set up by HM.
+  programs.fish.enable = true;
 
   # Enable screen bright fn keys together with services.actkbd
   programs.light.enable = true;
