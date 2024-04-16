@@ -54,24 +54,6 @@
       ln -sfn $HOME/src/dotfiles/ranger         $HOME/.config/ranger
     '';
 
-  # home.activation.linkApps = config.lib.dag.entryAfter [ "writeBoundary" ]
-  #   (lib.strings.optionalString pkgs.stdenv.isDarwin ''
-  #       for app in $HOME/.nix-profile/Applications/*.app;
-  #       do ln -sf $app $HOME/ApplicationsNix;
-  #       done
-  #       # Karabiner's Lib needs to be in /Library : /
-  #       # for d in $HOME/.nix-profile/Library/*;
-  #       #   do mkdir -p $HOME/"''${d''\#$HOME/.nix-profile/}"
-  #       #      for f in "$d"/*;
-  #       #        do ln -sf "$f" $HOME/"''${d''\#$HOME/.nix-profile/}"; done
-  #       #   done
-  #       # for d in $HOME/.nix-profile/Library/*;
-  #       #   do mkdir -p /"''${d''\#$HOME/.nix-profile/}"
-  #       #      for f in "$d"/org.pqrs*;
-  #       #        do sudo ln -sf "$f" /"''${d''\#$HOME/.nix-profile/}"; done
-  #       #   done
-  #     '');
-
   home.file = let mozillaConfigPath =
                     if pkgs.stdenv.isDarwin
                     then "Library/Application Support/Mozilla"
