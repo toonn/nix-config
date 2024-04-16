@@ -60,6 +60,11 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Aqprox WiFi adapter, RTL8811AU chip
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    rtl88xxau-aircrack
+  ];
+
   fileSystems."/".options = [ "compress=zstd" ];
 
   fonts.packages = with pkgs; [ joypixels ];
