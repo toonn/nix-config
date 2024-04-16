@@ -174,7 +174,7 @@ in {
     let job = options: { compression = "auto,zstd";
                          encryption.mode = "none";
                          group = "users";
-                         persistent = true;
+                         persistentTimer = true;
                          prune.keep = { within = "1d";
                                         daily = 1;
                                         weekly = 2;
