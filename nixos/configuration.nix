@@ -137,6 +137,9 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Smart card reader support
+  services.pcscd.enable = true;
+
   # Enable sound.
   # # This enables ALSA, unless hardware.pulseaudio is enabled.
   # sound.enable = true;
