@@ -1,12 +1,13 @@
 { pkgs ? import ./nixpkgs.nix
-, haskellCompiler ? "ghc925"
+, haskellCompiler ? "ghc948"
 , hsPkgs
 , for
 , buildInputs ? []
 }:
 let
+  inherit (pkgs.lib) mapAttrs;
   haskell-nix = pkgs.haskell-nix;
-  stackage = haskell-nix.snapshots."lts-20.2";
+  stackage = haskell-nix.snapshots."lts-21.22";
   hackage-package = haskell-nix.hackage-package;
 in hsPkgs.shellFor {
   packages = ps: for;
@@ -14,17 +15,20 @@ in hsPkgs.shellFor {
   buildInputs =
     (map (p: stackage."${p}".components.exes."${p}")
     [ # "brittany"
-      "ghcid"
       # "ormolu"
     ]
     ) ++ buildInputs;
 
   exactDeps = true;
 
-  tools = let index-state = "2022-11-29T00:00:00Z";
-    in { cabal = { version = "3.8.1.0"; inherit index-state; };
-         fast-tags = { version = "2.0.2"; inherit index-state; };
-       };
+  tools = mapAttrs (_: version: { inherit version;
+                                  index-state = "2023-11-30T00:00:00Z";
+                                }
+                   )
+                   { cabal = "3.10.2.1";
+                     fast-tags = "2.0.2";
+                     ghcid = "0.8.9";
+                   };
 
-  withHoogle = true;
+   withHoogle = false; # true;  # Puny laptop has trouble building all the docs
 }
