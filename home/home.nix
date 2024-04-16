@@ -103,62 +103,70 @@
     in with pkgs;
        [ # anki
          alass
-         bfpt
          bitwarden-cli
-         cachix
-         cdrtools
-         coldasdice
          curl
-         dosage
+         direnv
          # eid-mw  # beID Middleware, paired with pcscd service for the readers
          entr
          fd
-         (ffmpeg-full.override { libopus = libopus;
-                                 lame    = lame;
-                                 nonfreeLicensing = true;
-                                 fdkaacExtlib     = true;
-                                 fdk_aac          = fdk_aac;
-                               })
          gist
+         # glirc # irc-core-2.11 marked as broken
          gnupg
-         ifuse
-         imgursh
          inkscape
          irssi
          isync # IMAP synchronization
          jq # Specifically for bitwarden
-         # karabiner-elements
          kitty
          lorri
          moreutils
          mupdf
          neomutt
+         notmuch
          (pass.withExtensions (exts: with exts; [ pass-otp ]))
-         popcorntime
+         qmk
          ranger
          ripgrep
          rsync
-         (sequoia.override { pythonPackages = python3Packages; })
+         sequoia-sq
          sshuttle
-         taskell
+         taskell # needs bump on base bounds
          time
-         toxvpn
          unrar
-         wire-desktop
+         (vim_configurable.override { darwinSupport = pkgs.stdenv.isDarwin;
+                                      guiSupport = "no";
+                                      netbeansSupport = false;
+                                    })
          youtube-dl
-         yt-dlp-light
+         (import <nixos-unstable> {}).yt-dlp-light
          zbar
        ] ++ (with haskellPackages; [
          arbtt
        ]) ++ (if pkgs.stdenv.isDarwin
-             then [ kicad-app
+             then [ bfpt
+                    cachix
+                    cdrtools
+                    coldasdice
+                    dosage
+                    (ffmpeg-full.override { libopus = libopus;
+                                            lame    = lame;
+                                            nonfreeLicensing = true;
+                                            fdkaacExtlib     = true;
+                                            fdk_aac          = fdk_aac;
+                                          })
+                    ifuse
+                    imgursh
+                    # karabiner-elements
+                    kicad-app
                     openemu
-                    (vim_configurable.override { darwinSupport = true;
-                                                 guiSupport = "no";
-                                                 netbeansSupport = false;
-                                               })
+                    popcorntime
+                    toxvpn # Service on NixOS
+                    wire-desktop
                   ]
-             else [ tailscale # Not available on darwin
+             else [ ffmpeg
+                    # tailscale # Not available on darwin, service on NixOS
+                    teensy-udev-rules # Non-root programming of Teensy
+                    unzip  # Vim needs unzip to browse ZIP archives
+                    xclip
                   ]);
 
   home.sessionPath = [ "$HOME/bin" "$HOME/opt" ];
