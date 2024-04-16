@@ -2,26 +2,42 @@
 { # Let Home Manager install and manage itself.
   # programs.home-manager.enable = true;
 
-  nixpkgs.config = {
-    allowUnfreePredicate = p: builtins.elem (lib.getName p) [
-      "ffmpeg-full"
-      "Firefox"
-      "openemu"
-      "unrar"
-      ];
-    #overlays = [
-    #  (import ~/.config/nixpkgs/overlays/firefox.nix)
-    #  ];
-    packageOverrides = pkgs: {
-      nur = import (builtins.fetchTarball
-        "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-          inherit pkgs;
-        };
+  home = { username = "toonn";
+           homeDirectory = "/home/toonn";
+           # Caveat Emptor: Changing stateVersion may require manual data
+           #                conversion or moving of files.
+           stateVersion = "22.11";
+         };
+
+  nixpkgs = {
+    config = {
+      allowUnfreePredicate = p: builtins.elem (lib.getName p) [
+        "ffmpeg-full"
+        "Firefox"
+        "firefox-bin"
+        "firefox-release-bin-unwrapped"
+        "openemu"
+        "unrar"
+        ];
+      packageOverrides = pkgs: {
+        nur = import (builtins.fetchTarball
+          "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+            inherit pkgs;
+          };
+      };
+      permittedInsecurePackages = [
+          "openssl-1.0.2u"
+        ];
+      zathura.useMupdf = true;
     };
-    permittedInsecurePackages = [
-        "openssl-1.0.2u"
-      ];
-    zathura.useMupdf = true;
+
+    overlays = [
+      (import /home/toonn/src/nix-config/overlays/firefox-addons.nix)
+      # (import /home/toonn/src/nix-config/overlays/haskell-packages.nix)
+      (import /home/toonn/src/nix-config/overlays/mpvScripts.nix)
+      # (import /home/toonn/src/nix-config/overlays/neomutt.nix)
+      (import /home/toonn/src/nix-config/overlays/taskell.nix)
+    ];
   };
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
@@ -56,7 +72,22 @@
         #   done
       '');
 
-  home.file = { # "bin".source = ~/src/dotfiles/bin;
+  home.file = let mozillaConfigPath =
+                    if pkgs.stdenv.isDarwin
+                    then "Library/Application Support/Mozilla"
+                    else ".mozilla";
+              in {
+                # TODO: How does it work without this?
+                # Including this prevents the browser extension from generating
+                # a notification when FF starts up about not being able to find
+                # the eID middleware.
+                "${mozillaConfigPath}/managed-storage/belgiumeid@eid.belgium.be.json".source =
+                  "${pkgs.eid-mw}/lib/mozilla/managed-storage/belgiumeid@eid.belgium.be.json";
+                "${mozillaConfigPath}/pkcs11-modules/beidpkcs11.json".source =
+                  "${pkgs.eid-mw}/lib/mozilla/pkcs11-modules/beidpkcs11.json";
+                "${mozillaConfigPath}/pkcs11-modules/beidpkcs11_alt.json".source =
+                  "${pkgs.eid-mw}/lib/mozilla/pkcs11-modules/beidpkcs11_alt.json";
+                # "bin".source = ~/src/dotfiles/bin;
                 # "opt".source = ~/src/dotfiles/opt;
                 # ".config/fish/functions".source =
                 #   ~/src/dotfiles/fish/functions;
@@ -98,6 +129,7 @@
          coldasdice
          curl
          dosage
+         # eid-mw  # beID Middleware, paired with pcscd service for the readers
          entr
          fd
          (ffmpeg-full.override { libopus = libopus;
@@ -172,9 +204,6 @@
       then darwin
       else linux;
 
-  # Caveat Emptor: Changing stateVersion may require manual data conversion or
-  #                moving of files.
-  home.stateVersion = "22.11";
   xresources.properties = {
     "*faceName" = "DejaVu Sans Mono";
     "*faceSize" = 10;
@@ -247,73 +276,81 @@
   };
 
   programs.direnv = { enable = true;
-                      enableFishIntegration = true;
+                      # enableFishIntegration = true; # readonly option
                       # config = { };
                       # stdlib = "";
                     };
 
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-app;
-    extensions = with pkgs.nur.repos.rycee.firefox-addons;
-      [
-        bitwarden
-        darkreader
-        decentraleyes
-        multi-account-containers
-        #google-search-link-fix  # ClearURLs is a better alternative
-        #https-everywhere  # Deprecated in favor of native https_only_mode
-        pkgs.clearurls  # Missing from rycee's addons Overlay
-        pkgs.custom-title  # Missing from rycee's addons Overlay
-        #saka-key  # Missing from rycee's addons
-        temporary-containers
-        ublock-origin
-        vimium
-      ];
-    profiles = {
+    # TODO: Firefox is still missing eid-mw's managed-storage manifest
+    package = pkgs.firefox-bin.override { pkcs11Modules = [ pkgs.eid-mw ]; };
+    profiles = let
+      extensions = with pkgs.nur.repos.rycee.firefox-addons;
+        [
+          bitwarden
+          darkreader
+          decentraleyes
+          multi-account-containers
+          #google-search-link-fix  # ClearURLs is a better alternative
+          #https-everywhere  # Deprecated in favor of native https_only_mode
+          #saka-key  # Missing from rycee's addons
+          temporary-containers
+          ublock-origin
+          vimium
+        ] ++ ( with pkgs; [
+          belgium-eID  # Missing from rycee's addons Overlay
+          clearurls  # Missing from rycee's addons Overlay
+          custom-title  # Missing from rycee's addons Overlay
+        ]);
+    in {
       "cmyk" = {
+        inherit extensions;
         id = 0;
         isDefault = true;
         name = "tonerlow";
         path = "notonercartridge";
-        settings = import ~/src/nix-config/home/ff-userjs.nix;
+        settings = import /home/toonn/src/nix-config/home/ff-userjs.nix;
         userChrome = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userChrome.css;
         userContent = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userContent.css;
       };
       "T8N" = {
+        inherit extensions;
         id = 1;
         isDefault = false;
         name = "T8N";
         path = "T8N";
-        settings = import ~/src/nix-config/home/ff-userjs.nix;
+        settings = import /home/toonn/src/nix-config/home/ff-userjs.nix;
         userChrome = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userChrome.css;
         userContent = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userContent.css;
       };
       "WebGL" = {
+        inherit extensions;
         id = 2;
         isDefault = false;
         name = "WebGL";
         path = "WebGL";
-        settings = import ~/src/nix-config/home/ff-webgl-userjs.nix;
+        settings = import /home/toonn/src/nix-config/home/ff-webgl-userjs.nix;
         userChrome = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userChrome.css;
         userContent = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userContent.css;
       };
       "Jitsi" = {
+        inherit extensions;
         id = 3;
         isDefault = false;
         name = "Jitsi";
         path = "Jitsi";
-        settings = import ~/src/nix-config/home/ff-webgl-userjs.nix;
+        settings = import /home/toonn/src/nix-config/home/ff-webgl-userjs.nix;
         userChrome = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userChrome.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userChrome.css;
         userContent = builtins.readFile
-          ~/src/dotfiles/ff-conf/chrome/userContent.css;
+          /home/toonn/src/dotfiles/ff-conf/chrome/userContent.css;
       };
     };
   };
