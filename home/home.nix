@@ -3,7 +3,7 @@
   # programs.home-manager.enable = true;
 
   home = { username = "toonn";
-           homeDirectory = "/home/toonn";
+           homeDirectory = builtins.getEnv "HOME";
            # Caveat Emptor: Changing stateVersion may require manual data
            #                conversion or moving of files.
            stateVersion = "22.11";
