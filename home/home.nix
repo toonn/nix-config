@@ -35,7 +35,6 @@
       (import /home/toonn/src/nix-config/overlays/firefox-addons.nix)
       # (import /home/toonn/src/nix-config/overlays/haskell-packages.nix)
       (import /home/toonn/src/nix-config/overlays/mpvScripts.nix)
-      # (import /home/toonn/src/nix-config/overlays/neomutt.nix)
       (import /home/toonn/src/nix-config/overlays/taskell.nix)
     ];
   };
