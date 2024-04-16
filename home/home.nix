@@ -55,6 +55,7 @@
       ln -sfn $HOME/src/dotfiles/neomutt        $HOME/.config/neomutt
       ln -sfn $HOME/src/dotfiles/notmuch/notmuch-config \
         $HOME/.notmuch-config
+      ln -sfn $HOME/src/dotfiles/openbox        $HOME/.config/openbox
       ln -sfn $HOME/src/dotfiles/ranger         $HOME/.config/ranger
     '';
 
