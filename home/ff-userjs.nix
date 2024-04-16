@@ -128,7 +128,12 @@
   "network.gio.supported-protocols" = "";
   "network.http.altsvc.enabled" = false;
   "network.http.altsvc.oe" = false;
-  "network.http.referer.XOriginPolicy" = 2;
+  ##
+  # Kraken sign-in fails when this is set to send a referrer only on
+  # same-origin
+  # "network.http.referer.XOriginPolicy" = 2;
+  "network.http.referer.XOriginPolicy" = 1;
+  ##
   "network.http.referer.XOriginTrimmingPolicy" = 2;
   "network.http.speculative-parallel-limit" = 0;
   "network.predictor.enable-prefetch" = false;
