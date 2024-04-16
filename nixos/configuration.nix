@@ -52,6 +52,8 @@ in {
     };
 
     overlays = [
+      # (import (nix-config-repo + "/overlays/bitlbee.nix"))
+      (import (nix-config-repo + "/overlays/libinput.nix"))
       (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
     ];
   };
@@ -117,18 +119,9 @@ in {
                      };
     windowManager.openbox.enable = true;
     # Enable touchpad support (enabled default in most desktopManager).
-    # libinput = { enable = true;
-    #              touchpad.naturalScrolling = true;
-    #            };
-
-    # Libinput doesn't do naturalScrolling
-    synaptics = { enable = true;
-                  fingersMap = [ 1 3 2 ];
-                  horizEdgeScroll = false;
-                  scrollDelta = -26;
-                  twoFingerScroll = true;
-                  vertEdgeScroll = false;
-                };
+    libinput = { enable = true;
+                 touchpad.naturalScrolling = true;
+               };
   };
 
   # Enable CUPS to print documents.
@@ -170,6 +163,21 @@ in {
     #             "$1"/default.target.wants/"$instance"
     #         done
     #       '';
+
+    # A libinput quirk was added for the single button MacBook touchpad (to be
+    # released in 1.26). However, this prevents dragging with multiple fingers
+    # by pressing down on the touchpad button. Making the touchpad button near
+    # useless. I prefer it keep behaving as a "clickpad" so I'm overriding that
+    # quirk locally.
+    "libinput/local-overrides.quirks".text = ''
+      [Apple Touchpad OneButton A1181]
+      MatchUdevType=touchpad
+      MatchBus=usb
+      MatchVendor=0x05AC
+      MatchProduct=0x022A
+      ModelAppleTouchpadOneButton=0
+      AttrInputProp=+INPUT_PROP_BUTTONPAD
+    '';
     };
     shells = with pkgs; [ fish ];
     systemPackages = with pkgs; [
