@@ -1,13 +1,17 @@
 { config, pkgs, ... }:
 let nix-config-repo = /home/toonn/src/nix-config;
 in {
-  disabledModules = [ "services/backup/borgbackup.nix" "services/networking/bitlbee.nix" ];
+  disabledModules = [ "services/backup/borgbackup.nix"
+                      "services/networking/bitlbee.nix"
+                      "services/hardware/actkbd.nix"
+                    ];
   imports =
     [ /etc/nixos/hardware-configuration.nix
       <home-manager/nixos>
       (nix-config-repo + "/modules/borgbackup/borgbackup.nix")
       (nix-config-repo + "/modules/bitlbee.nix")
       (nix-config-repo + "/modules/mdns-publisher.nix")
+      /home/toonn/src/nixpkgs/actkbd-user-module/nixos/modules/services/hardware/actkbd.nix
     ];
 
   nix = {
@@ -126,6 +130,26 @@ in {
     vim
   ];
 
+  # NixOS doesn't facilitate setting up systemd user generators
+  environment = {
+    etc = {
+    #   "systemd/user-generators/user-actkbd.generator".source
+    #     = pkgs.writeShellScript "user-actkbd-systemd.generator" ''
+    #         mkdir -p "$1"/default.target.wants
+    #         for device in $(realpath /dev/input/by-path/*-kbd); do
+    #           # In principle it's possible to use systemd-escape's --path
+    #           # option here but this would require running systemd-escape from
+    #           # the corresponding udev rule and the shorter execution of a udev
+    #           # rule is, the better.
+    #           instance=$(systemd-escape --template=user-actkbd@.service \
+    #                        "$device" \
+    #                     )
+    #           ln -s /etc/systemd/user/user-actkbd@.service \
+    #             "$1"/default.target.wants/"$instance"
+    #         done
+    #       '';
+  };
+
   # Enable screen bright fn keys together with services.actkbd
   programs.light.enable = true;
 
@@ -147,7 +171,144 @@ in {
                      }
                    ];
     enable = true;
+    user.bindings = let wpctl = "${lib.getBin pkgs.wireplumber}/bin/wpctl";
+                     in [
+                # Ungrab on release events because X drivers sometimes interpret
+                # a release as both a press and a release.
+                # Used /dev/input/event8 to get the keycodes.
+                { keys = [ 113 ];
+                  events = [ "key" ];
+                  # attributes = [ "ungrabbed" "grab" "exec" ];
+                  # command = "/run/current-system/sw/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+                  command = "${wpctl} set-mute @DEFAULT_SINK@ toggle";
+                }
+                # { keys = [ 113 ];
+                #   events = [ "rel" ];
+                #   attributes = [ "grabbed" "ungrab" "noexec" ];
+                # }
+                { keys = [ 114 ];
+                  events = [ "key" ];
+                  # attributes = [ "ungrabbed" "grab" "exec" ];
+                  # command = "/run/current-system/sw/bin/pactl set-sink-volume @DEFAULT_SINK@ -10%";
+                  command = "${wpctl} set-volume @DEFAULT_SINK@ 10%-";
+                }
+                # { keys = [ 114 ];
+                #   events = [ "rel" ];
+                #   attributes = [ "grabbed" "ungrab" "noexec" ];
+                # }
+                { keys = [ 115 ];
+                  events = [ "key" ];
+                  # attributes = [ "ungrabbed" "grab" "exec" ];
+                  # command = "/run/current-system/sw/bin/pactl set-sink-volume @DEFAULT_SINK@ +10%";
+                  # Might want to add `--limit 1.0`
+                  command = "${wpctl} set-volume @DEFAULT_SINK@ 10%+";
+                }
+                # { keys = [ 115 ];
+                #   events = [ "rel" ];
+                #   attributes = [ "grabbed" "ungrab" "noexec" ];
+                # }
+              ];
   };
+
+  # # Volume control with actkbd and pactl/wpctl needs to run as a user unit.
+  # # Based on PR #67227, https://github.com/NixOS/nixpkgs/pull/67227
+  # services.udev.packages = lib.mkForce (lib.singleton
+  #   ( pkgs.writeTextFile {
+  #       name = "actkbd-udev-rules";
+  #       destination = "/etc/udev/rules.d/61-actkbd.rules";
+  #       text = let actkbdVar = "actkbd@$env{DEVNAME}.service";
+  #               in ''
+  #                    ACTION=="add", \
+  #                    SUBSYSTEM=="input", \
+  #                    KERNEL=="event[0-9]*", \
+  #                    ENV{ID_INPUT_KEY}=="1", \
+  #                    TAG+="systemd", \
+  #                    TAG+="uaccess",${ # Necessary for user services to get
+  #                                      # access to the input device. I tried
+  #                                      # setting MODE=0444 but this made both
+  #                                      # user and system services fail.
+  #                                      # Note: Udev rules don't support in-line
+  #                                      #       comments so this is a sneaky way
+  #                                      #       to do so.
+  #                                      ""
+  #                                    } \
+  #                    ENV{SYSTEMD_WANTS}+="${actkbdVar}", \
+  #                    ENV{SYSTEMD_USER_WANTS}+="user-${actkbdVar}"
+  #                  '';
+  #     }
+  #   )
+  # );
+
+  # # Usually these'd be managed by HM but I consider media keys to be a
+  # # responsibility for the system.
+  # systemd.user.services = {
+  #   "user-actkbd@" = {
+  #     # Can't set this to false because then the template and the instances end
+  #     # up as masked in systemctl
+  #     # enable = false; # Senseless for a template.
+  #     restartIfChanged = false; # Senseless for a template.
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       ExecStart =
+  #         let wpctl = "${lib.getBin pkgs.wireplumber}/bin/wpctl";
+  #             bindings = [
+  #               # Ungrab on release events because X drivers sometimes interpret
+  #               # a release as both a press and a release.
+  #               # Used /dev/input/event8 to get the keycodes.
+  #               { keys = [ 113 ];
+  #                 events = [ "key" ];
+  #                 # attributes = [ "ungrabbed" "grab" "exec" ];
+  #                 # command = "/run/current-system/sw/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+  #                 command = "${wpctl} set-mute @DEFAULT_SINK@ toggle";
+  #               }
+  #               # { keys = [ 113 ];
+  #               #   events = [ "rel" ];
+  #               #   attributes = [ "grabbed" "ungrab" "noexec" ];
+  #               # }
+  #               { keys = [ 114 ];
+  #                 events = [ "key" ];
+  #                 # attributes = [ "ungrabbed" "grab" "exec" ];
+  #                 # command = "/run/current-system/sw/bin/pactl set-sink-volume @DEFAULT_SINK@ -10%";
+  #                 command = "${wpctl} set-volume @DEFAULT_SINK@ 10%-";
+  #               }
+  #               # { keys = [ 114 ];
+  #               #   events = [ "rel" ];
+  #               #   attributes = [ "grabbed" "ungrab" "noexec" ];
+  #               # }
+  #               { keys = [ 115 ];
+  #                 events = [ "key" ];
+  #                 # attributes = [ "ungrabbed" "grab" "exec" ];
+  #                 # command = "/run/current-system/sw/bin/pactl set-sink-volume @DEFAULT_SINK@ +10%";
+  #                 # Might want to add `--limit 1.0`
+  #                 command = "${wpctl} set-volume @DEFAULT_SINK@ 10%+";
+  #               }
+  #               # { keys = [ 115 ];
+  #               #   events = [ "rel" ];
+  #               #   attributes = [ "grabbed" "ungrab" "noexec" ];
+  #               # }
+  #             ];
+  #             config = pkgs.writeText "actkbd.conf" ''
+  #               ${lib.concatMapStringsSep "\n"
+  #                 ( { keys, events ? [], attributes ? [], command ? "" }:
+  #                 ''${lib.concatMapStringsSep "+" toString keys}:${
+  #                     lib.concatStringsSep "," events}:${
+  #                     lib.concatStringsSep "," attributes}:${
+  #                     command
+  #                   }''
+  #                 )
+  #                 bindings
+  #               }
+  #             '';
+  #          in "${pkgs.actkbd}/bin/actkbd -c ${config} -d %I";
+  #     };
+  #     unitConfig = {
+  #       After = [ "default.target" ];
+  #       Description = "actkbd on %I";
+  #       ConditionPathExists = "%I";
+  #     };
+  #   };
+  # };
+
   services.avahi = { # allowPointToPoint = true;
                      enable = true;
                      ipv6 = false;
