@@ -9,26 +9,36 @@ in {
     [ /etc/nixos/hardware-configuration.nix
       <home-manager/nixos>
       (nix-config-repo + "/modules/borgbackup/borgbackup.nix")
+      # (builtins.fetchurl { url = "https://raw.githubusercontent.com/NixOS/nixpkgs/f4c69e198ce8a8208995e43133d4c32d2045a587/nixos/modules/services/networking/bitlbee.nix"; sha256 = "1d120xrhq6hzn2rnhqh69dzs4gy6wb5pywni13ir4ldkrxfx40yw"; })
       (nix-config-repo + "/modules/bitlbee.nix")
       (nix-config-repo + "/modules/mdns-publisher.nix")
       /home/toonn/src/nixpkgs/actkbd-user-module/nixos/modules/services/hardware/actkbd.nix
     ];
 
   nix = {
-    buildMachines = [ { hostName = "darwin-build-box.winter.cafe";
-                        maxJobs = 4;
-                        sshKey = "/home/toonn/.ssh/darwin-build-box.ed25519";
-                        sshUser = "toonn";
-                        systems = [ "aarch64-darwin" "x86_64-darwin" ];
-                      }
-                    ];
-    distributedBuilds = true;
+    # buildMachines = [ { hostName = "darwin-build-box.winter.cafe";
+    #                     maxJobs = 4;
+    #                     sshKey = "/home/toonn/.ssh/darwin-build-box_id_ed25519";
+    #                     sshUser = "toonn";
+    #                     systems = [ "aarch64-darwin" "x86_64-darwin" ];
+    #                   }
+    #                   { hostName = "darwin-build-box.nix-community.org";
+    #                     maxJobs = 4;
+    #                     sshKey = "/home/toonn/.ssh/darwin-build-box_id_ed25519";
+    #                     sshUser = "toonn";
+    #                     systems = [ "aarch64-darwin" "x86_64-darwin" ];
+    #                   }
+    #                 ];
+    # distributedBuilds = true;
     settings = {
+      cores = 1;
+      max-jobs = 1;
       # Haskell.nix cache
       trusted-public-keys = [
         "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       ];
-      substituters = [ "https://cache.iog.io" ];
+      substituters = [ "https://cache.iog.io?priority=50" # Prefer nixos.org
+                     ];
     };
   };
 
