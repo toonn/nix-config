@@ -71,6 +71,15 @@ in {
 
   hardware.cpu.intel.updateMicrocode = true;
 
+  hardware.firmware = [
+    # To get the webcam working
+    # Got iSight.fw from https://archive.org/details/macbook-isight-webcam-linux
+    ( pkgs.runCommandNoCC "isight-webcam" {} ''
+        install -D ${./isight.fw} $out/lib/firmware/isight.fw
+      ''
+    )
+  ];
+
   networking.hostName = "yorp";
   # Connman instead
   # networking.wireless = { enable = true;  # Enables wpa_supplicant.
