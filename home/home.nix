@@ -103,7 +103,6 @@
     in with pkgs;
        [ # anki
          alass
-         arbtt
          bfpt
          bitwarden-cli
          cachix
@@ -149,7 +148,9 @@
          youtube-dl
          yt-dlp-light
          zbar
-       ] ++ (if pkgs.stdenv.isDarwin
+       ] ++ (with haskellPackages; [
+         arbtt
+       ]) ++ (if pkgs.stdenv.isDarwin
              then [ kicad-app
                     openemu
                     (vim_configurable.override { darwinSupport = true;
@@ -724,4 +725,41 @@
   #     Install =
   #       { WantedBy = "default.target"; };
   #   };
+
+  systemd.user = {
+    services = {
+      "arbtt-capture" = {
+        # enable = true;
+        Service = {
+          Environment = let path = builtins.concatStringsSep ":"
+                                     ( map (p: "${lib.getBin p}/bin")
+                                           ( with pkgs; [ haskellPackages.arbtt
+                                                          coreutils
+                                                        ]
+                                           )
+                                     );
+                         in "PATH=${path}";
+          ExecStart
+            = let script
+                    = pkgs.writeShellScript "arbtt-capture-start" ''
+                        set -e
+                        DATADIR="''${XDG_DATA_HOME:-$HOME/.local/share/arbtt}"
+                        LOG="''${DATADIR}/''$(date +%Y).capture"
+                        mkdir -p "''${DATADIR}"
+                        arbtt-capture --logfile="''${LOG}"
+                      '';
+               in "${script}";
+          Restart = "always";
+        };
+        Unit = {
+          Description = "Arbtt capture service";
+          PartOf = [ "graphical-session.target" ];
+        };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
+      };
+    };
+    startServices = "sd-switch";
+  };
 }
