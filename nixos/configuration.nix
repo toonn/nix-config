@@ -55,6 +55,16 @@ in {
       # (import (nix-config-repo + "/overlays/bitlbee.nix"))
       (import (nix-config-repo + "/overlays/libinput.nix"))
       (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
+      (import (nix-config-repo + "/overlays/nssmdns.nix"))
+
+      # # Temporarily trying to debug subdomain resolution by nsncd
+      # ( self: super: {
+      #     nsncd = super.nsncd.overrideAttrs (oAs: {
+      #       cargoBuildType = "debug";
+      #       patches = oAs.patches ++ [ /home/toonn/handlers.diff ];
+      #     });
+      #   }
+      # )
     ];
   };
 
@@ -178,6 +188,14 @@ in {
       ModelAppleTouchpadOneButton=0
       AttrInputProp=+INPUT_PROP_BUTTONPAD
     '';
+
+    # nscd doesn't allow subdomains unless the heuristics are disabled by
+    # explicitly allowing certain domains.
+    # nsncd does not appear to be respecting this configuration file.
+      "mdns.allow".text = ''
+        .local.
+        .local
+      '';
     };
     shells = with pkgs; [ fish ];
     systemPackages = with pkgs; [
@@ -459,7 +477,7 @@ in {
                     };
 
   system.nssModules = with pkgs; [ nssmdns ];
-  system.nssDatabases.hosts = [ "mdns6 [NOTFOUND=return]" ];
+  system.nssDatabases.hosts = [ "mdns4 [NOTFOUND=return]" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
