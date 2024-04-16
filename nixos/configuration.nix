@@ -56,7 +56,6 @@ in {
       (import (nix-config-repo + "/overlays/libinput.nix"))
       (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
       (import (nix-config-repo + "/overlays/nssmdns.nix"))
-      # (import (nix-config-repo + "/overlays/selfoss.nix"))
 
       # # Temporarily trying to debug subdomain resolution by nsncd
       # ( self: super: {
@@ -456,30 +455,6 @@ in {
       "10.0.0.5".backup = true;
     };
     virtualHosts = {
-      # "yorp.local" = {
-      #   root = "/var/lib/selfoss"; # hardcoded in the module
-      #   extraConfig = ''
-      #     location ~* \ (gif|jpg|png) {
-      #       expires 30d;
-      #     }
-      #     location ~ ^/(favicons|thumbnails)/.*$ {
-      #       try_files $uri /data/$uri;
-      #     }
-      #     location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
-      #       deny all;
-      #     }
-      #     location / {
-      #       index index.php;
-      #       try_files $uri /public/$uri /index.php$is_args$args;
-      #     }
-      #     location ~ \.php$ {
-      #       fastcgi_pass unix:${config.services.phpfpm.pools.${config.services.selfoss.pool}.socket};
-      #       include ${config.services.nginx.package}/conf/fastcgi.conf;
-      #       fastcgi_param PATH_INFO $fastcgi_path_info;
-      #       fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
-      #     }
-      #   '';
-      # };
       "*.yorp.local" = {
         extraConfig = ''
           default_type application/json;
@@ -494,7 +469,6 @@ in {
       };
     };
   };
-  # services.selfoss.enable = true;
 
   services.tailscale.enable = true;
 
