@@ -722,6 +722,22 @@
                          #sshKeys = [ "" ];
                        };
 
+  # purple-matrix gets stuck on "Couldn't parse sync response" and crashes
+  # bitlbee. Maybe leaving channels so the sync is smaller could help.
+  services.pantalaimon = { enable = false;
+                           package = with pkgs;
+                           pantalaimon.overridePythonAttrs (oAs: {
+                             propagatedBuildInputs = oAs.propagatedBuildInputs
+                               ++ [ python3Packages.keyrings-cryptfile ];
+                           });
+                           settings = { matrix-org = {
+                                          Homeserver = "https://matrix.org";
+                                          ListenPort = 8448;
+                                        };
+                                      };
+                         };
+
+
   # services.redshift = { enable = true;
   #                       package = pkgs.redshift;
   #                       brightness.day = 1.0;
