@@ -694,10 +694,12 @@
   #       };
   #   };
 
-  # services.gpg-agent = { enable = true;
-  #                        enableSshSupport = true;
-  #                        sshKeys = [ "" ];
-  #                      };
+  services.gpg-agent = { enable = true;
+                         #enableSshSupport = true;
+                         pinentryFlavor = "tty";
+                         # for unstable: pinentryPackage = pkgs.pinentry-tty;
+                         #sshKeys = [ "" ];
+                       };
 
   # services.redshift = { enable = true;
   #                       package = pkgs.redshift;
