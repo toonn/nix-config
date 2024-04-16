@@ -547,14 +547,14 @@
                                 identityFile = "~/.ssh/nix_id_ed25519";
                               };
                       # From titan:
-                      # "toxsol" = { hostname     = "10.0.0.5";
-                      #              user         = "toonn";
-                      #              identityFile = "~/.ssh/nix_id_ed25519";
-                      #            };
-                      "son" = { hostname     = "sons-imac.local";
-                                user         = "toonn";
-                                identityFile = "~/.ssh/titan_id_ed25519";
-                              };
+                      "toxsol" = { hostname     = "10.0.0.5";
+                                   user         = "toonn";
+                                   identityFile = "~/.ssh/yorp_id_ed25519";
+                                 };
+                      "terra" = { hostname = "terra.local";
+                                  user         = "toonn";
+                                  identityFile = "~/.ssh/yorp_id_ed25519";
+                                };
                       "titan" = { hostname = "titan.local";
                                   extraOptions = { preferredAuthentications =
                                                      "publickey,password";
@@ -575,6 +575,14 @@
                       # To avoid passing the path to the key file
                       "darwin-build-box" = {
                         hostname     = "darwin-build-box.winter.cafe";
+                        user         = "toonn";
+                        identityFile = "~/.ssh/darwin-build-box_id_ed25519";
+                        extraOptions = { preferredAuthentications =
+                                           "publickey";
+                                       };
+                      };
+                      "community-build-box" = {
+                        hostname     = "darwin-build-box.nix-community.org";
                         user         = "toonn";
                         identityFile = "~/.ssh/darwin-build-box_id_ed25519";
                         extraOptions = { preferredAuthentications =
