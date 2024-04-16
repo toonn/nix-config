@@ -49,6 +49,7 @@
       ln -sfn $HOME/src/dotfiles/fish/functions $HOME/.config/fish/functions
       ln -sfn $HOME/src/dotfiles/isync/mbsyncrc $HOME/.mbsyncrc
       ln -sfn $HOME/src/dotfiles/kitty          $HOME/.config/kitty
+      mkdir -p $HOME/.config/mpv
       ln -sfn $HOME/src/dotfiles/mpv/scripts    $HOME/.config/mpv/scripts
       ln -sfn $HOME/src/dotfiles/neomutt        $HOME/.config/neomutt
       ln -sfn $HOME/src/dotfiles/ranger         $HOME/.config/ranger
@@ -497,9 +498,9 @@
                   script-opts-append = "autocrop-auto=no";
                 };
        # profiles = { fast = { vo = "vdpau"; }; };
-       scripts = [ pkgs.mpvScripts.autocrop
-                   pkgs.mpvScripts.cycle-video-rotate
-                 ];
+       scripts = with pkgs.mpvScripts; [ autocrop
+                                         cycle-video-rotate
+                                       ];
     };
 
   programs.ssh =
