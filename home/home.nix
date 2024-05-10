@@ -133,6 +133,7 @@
          ripgrep
          rsync
          sequoia-sq
+         sops
          sshuttle
          taskell # needs bump on base bounds
          time
