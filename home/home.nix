@@ -1,15 +1,5 @@
 { config, pkgs, lib, ... }:
-{ # Let Home Manager install and manage itself.
-  # programs.home-manager.enable = true;
-
-  home = { username = "toonn";
-           homeDirectory = builtins.getEnv "HOME";
-           # Caveat Emptor: Changing stateVersion may require manual data
-           #                conversion or moving of files.
-           stateVersion = "22.11";
-         };
-
-  nixpkgs = {
+{ nixpkgs = {
     config = {
       allowUnfreePredicate = p: builtins.elem (lib.getName p) [
         "ffmpeg-full"
@@ -18,16 +8,15 @@
         "firefox-release-bin-unwrapped"
         "openemu"
         "unrar"
-        ];
+      ];
       packageOverrides = pkgs: {
-        nur = import (builtins.fetchTarball
-          "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-            inherit pkgs;
-          };
+        nur = import ( builtins.fetchTarball
+                "https://github.com/nix-community/NUR/archive/master.tar.gz"
+              ) { inherit pkgs; };
       };
       permittedInsecurePackages = [
-          "openssl-1.0.2u"
-        ];
+        "openssl-1.0.2u"
+      ];
       zathura.useMupdf = true;
     };
 
@@ -38,6 +27,18 @@
       (import /home/toonn/src/nix-config/overlays/taskell.nix)
     ];
   };
+
+  home.username = "toonn";
+
+  home.homeDirectory = let userDir = if pkgs.stdenv.isDarwin
+                                     then "Users"
+                                     else "home";
+
+                        in"/${userDir}/${config.home.username}";
+
+  # Caveat Emptor: Changing stateVersion may require manual data
+  #                conversion or moving of files.
+  home.stateVersion = "22.11";
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
