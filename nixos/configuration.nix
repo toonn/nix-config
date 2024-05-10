@@ -217,6 +217,9 @@ in {
   # Darwin-build-box public key fingerprint
   programs.ssh.knownHosts."darwin-build-box.winter.cafe".publicKey =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB0io9E0eXiDIEHvsibXOxOPveSjUPIr1RnNKbUkw3fD";
+  # Community Darwin builder
+  programs.ssh.knownHosts."darwin-build-box.nix-community.org".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDDnaVD9TZDJKSpiJQg0qYs0WUHFq3Ur5ijm/kHOY91N";
 
   # Bind fn brightness keys to light utility commands
   services.actkbd = {
