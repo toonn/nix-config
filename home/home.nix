@@ -126,6 +126,7 @@
          moreutils
          mupdf
          neomutt
+         niv
          notmuch
          (pass.withExtensions (exts: with exts; [ pass-otp ]))
          qmk
