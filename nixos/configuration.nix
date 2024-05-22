@@ -219,7 +219,7 @@ in {
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB0io9E0eXiDIEHvsibXOxOPveSjUPIr1RnNKbUkw3fD";
   # Community Darwin builder
   programs.ssh.knownHosts."darwin-build-box.nix-community.org".publicKey =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDDnaVD9TZDJKSpiJQg0qYs0WUHFq3Ur5ijm/kHOY91N";
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFz8FXSVEdf8FvDMfboxhB5VjSe7y2WgSa09q1L4t099";
 
   # Bind fn brightness keys to light utility commands
   services.actkbd = {
