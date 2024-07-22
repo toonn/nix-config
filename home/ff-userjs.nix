@@ -69,6 +69,7 @@
   "dom.disable_window_open_feature.toolbar" = true;
   "dom.event.clipboardevents.enabled" = false;
   "dom.ipc.plugins.flash.subprocess.crashreporter.enabled" = false;
+  "dom.private-attribution.submission.enabled" = false;
   "dom.push.enabled" = false;
   "dom.security.https_only_mode" = true;
   "dom.targetBlankNoOpener.enabled" = true;
