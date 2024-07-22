@@ -380,6 +380,13 @@
                      { lg = "log --graph --pretty=format:'%C(auto)%h -%d %s"
                           + " %Cgreen(%cr) %C(bold blue)<%an>%Creset'";
                        st = "status -sb";
+                       checkout-empty = "!checkout-empty() {"
+                                       + " git checkout $("
+                                         + "git commit-tree $("
+                                          + "git hash-object -t tree /dev/null"
+                                         + ") < /dev/null"
+                                       +  ");"
+                                      + " }; checkout-empty";
                        dirty = "!dirty() {"
                              + " for repo in"
                              + " $(fd -t d --maxdepth=2 '^\\.git$' -H \${@:-.}"
