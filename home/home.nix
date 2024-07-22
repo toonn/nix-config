@@ -137,7 +137,7 @@
          sequoia-sq
          sops
          sshuttle
-         taskell # needs bump on base bounds
+         #taskell # needs bump on base bounds and compatibility with Brick 2.1.1
          time
          unrar
          (vim_configurable.override { darwinSupport = pkgs.stdenv.isDarwin;
