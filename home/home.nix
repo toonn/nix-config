@@ -7,6 +7,7 @@
         "firefox-bin"
         "firefox-release-bin-unwrapped"
         "openemu"
+        "teensy-udev-rules"
         "unrar"
       ];
       packageOverrides = pkgs: {
