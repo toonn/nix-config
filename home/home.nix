@@ -144,7 +144,6 @@
                                       guiSupport = "no";
                                       netbeansSupport = false;
                                     })
-         youtube-dl
          (import <nixos-unstable> {}).yt-dlp-light
          zbar
        ] ++ (with haskellPackages; [
