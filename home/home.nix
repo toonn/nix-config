@@ -731,8 +731,7 @@
 
   services.gpg-agent = { enable = true;
                          #enableSshSupport = true;
-                         pinentryFlavor = "tty";
-                         # for unstable: pinentryPackage = pkgs.pinentry-tty;
+                         pinentryPackage = pkgs.pinentry-tty;
                          #sshKeys = [ "" ];
                        };
 
