@@ -107,7 +107,7 @@
                                )
                           else app;
     in with pkgs;
-       [ # anki
+       [ anki
          alass
          bitwarden-cli
          curl
