@@ -558,7 +558,12 @@
                                };
                       "gho" = { hostname = "gitlab.haskell.org";
                                 user = "git";
-                                identityFile = "~/.ssh/terra_gho_id_ed25519";
+                                identityFile = [ "~/.ssh/terra_gho_id_ed25519"
+                                                 "~/.ssh/yorp_gho_id_ed25519"
+                                               ];
+                                extraOptions = { preferredAuthentications =
+                                                   "publickey";
+                                               };
                               };
                       "gfo" = { hostname = "gitlab.freedesktop.org";
                                 user = "git";
