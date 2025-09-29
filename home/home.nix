@@ -614,6 +614,14 @@ let
                                 user = "git";
                                 identityFile = "~/.ssh/terra_gfo_id_ed25519";
                               };
+                      "codeberg" = {
+                        hostname = "codeberg.org";
+                        user = "git";
+                        identityFile = "~/.ssh/yorp_cbg_id_ed25519";
+                        extraOptions = { preferredAuthentications =
+                                           "publickey";
+                                       };
+                      };
                       "sol" = { hostname     = "sol.local";
                                 user         = "toonn";
                                 identityFile = "~/.ssh/nix_id_ed25519";
