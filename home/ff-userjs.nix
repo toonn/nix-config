@@ -84,6 +84,8 @@
   "extensions.pocket.enabled" = false;
   "extensions.systemAddon.update.enabled" = false;
   "extensions.systemAddon.update.url" = "";
+  "extensions.update.autoUpdateDefault" = false;
+  "extensions.update.enabled" = false;
   "extensions.webcompat-reporter.enabled" = false;
   "font.name-list.monospace.x-western" = "DejaVu Sans Mono";
   "font.name-list.sans-serif.x-western" = "DejaVu Sans";
@@ -155,6 +157,7 @@
   "privacy.cpd.siteSettings" = false;
   "privacy.donottrackheader.enabled" = true;
   "privacy.firstparty.isolate" = true;
+  "privacy.globalprivacycontrol.enabled" = true;
   ##
   # Fingerprinting involves masking window dimensions by introducing
   # letter/pillar boxing. This made many pages confusing because of the
