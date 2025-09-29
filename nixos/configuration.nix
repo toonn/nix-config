@@ -56,9 +56,7 @@ in {
 
     overlays = [
       # (import (nix-config-repo + "/overlays/bitlbee.nix"))
-      (import (nix-config-repo + "/overlays/libinput.nix"))
       (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
-      (import (nix-config-repo + "/overlays/nssmdns.nix"))
       (import (nix-config-repo + "/overlays/purple-matrix.nix"))
 
       # # Temporarily trying to debug subdomain resolution by nsncd
