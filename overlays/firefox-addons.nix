@@ -14,6 +14,38 @@ let addAttrnameToAttrs = super.lib.mapAttrs (v: as: as // { version = v; });
       "https://addons.mozilla.org/firefox/downloads/file/${urlNr}/${pname}-${version}.xpi";
 in {
 
+  beIDConnect = super.nur.repos.rycee.firefox-addons.buildFirefoxXpiAddon
+    ( let versions = addAttrnameToAttrs
+        { "0.0.16_srvlj7M" = {
+            sha256 = "sha256-pGLF+awQBxPSA293kMST88/IgWJPtCOlcF25iwHO+ms=";
+            urlNr = "4343570";
+          };
+        };
+        latest = latestVersion "0.0.16" versions;
+      in rec {
+        inherit (latest) sha256 version;
+        pname = "beIDConnect";
+        addonId = "beidconnect@bosa.be";
+        url = xpiURL { inherit pname; inherit (latest) urlNr version; };
+        meta = with super.lib; {
+          homepage = "https://signing.fts.bosa.belgium.be/";
+          description = ''
+            Software linked to the webservice of the Belgian federal
+            administration for signing a digital file in a reliable manner with
+            your Belgian electronic identity card.
+          '';
+          license = {
+            free = false;
+            fullName = "BeIDConnect Extension License";
+            redistributable = true;
+            spdxId = "LicenseRef-BeIDConnectExtensionLicense";
+            url = "https://addons.mozilla.org/en-US/firefox/addon/beidconnect/license/";
+          };
+          platforms = platforms.all;
+        };
+      }
+    );
+
   belgium-eID = super.nur.repos.rycee.firefox-addons.buildFirefoxXpiAddon
     ( let versions = addAttrnameToAttrs
         { "1.0.32" = {
@@ -47,6 +79,14 @@ in {
           "1.26.1" = {
             sha256 = "sha256-4gFo1jyxuLo60N5M20LFQNmf4AqpZ5tZ9JvMw28QYpE=";
             urlNr = "4064884";
+          };
+          "1.27.1" = {
+            sha256 = "sha256-tZYJQAoCCgErvYZmOTW5s1IJHyo/yNSUGt4cbWJX+eg=";
+            urlNr = "4414381";
+          };
+          "1.27.3" = {
+            sha256 = "sha256-VJJrbkJ01ZNaX8DapjIPHTcePS8aWHdGfKOrIqZcTyA=";
+            urlNr = "4432106";
           };
         };
         latest = latestVersion "1.17.0" versions;
