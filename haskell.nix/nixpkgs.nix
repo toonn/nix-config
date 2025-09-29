@@ -8,7 +8,12 @@ let
     # + "d68d84794999f7641b7c6500257e707f439bec36.tar.gz"
     # + "fadf9227afcdd93eedc656ba380f6a55d08fa650.tar.gz"
     # + "35dcaaa72029e4fbf0b5894ff979553dcbee6b8b.tar.gz"
-    + "509c8926e157875d098ac0e919a5e5aaeb8c1e08.tar.gz"
+    # + "509c8926e157875d098ac0e919a5e5aaeb8c1e08.tar.gz"
+    # + "2b63e7aa377082cb2923d39bfa7f6eb779e455cf.tar.gz"
+    # + "5a47cb688aa7f70bc843a30b9341e948becfcd0c.tar.gz"
+    # + "4fd706000172895925a78b3d97436d7711be93b6.tar.gz"
+    # + "c7a0e58f1dbe1c2085b6af647c8bbb1a297a8e91.tar.gz"
+    + "60bd09012b12681434a27ab04617ad5b1cfa4650.tar.gz"
   )) {};
 in
   haskellNix.pkgs
