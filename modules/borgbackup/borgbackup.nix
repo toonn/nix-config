@@ -126,6 +126,7 @@ let
       };
       # if remote-backup wait for network
       after = optional (cfg.persistentTimer && !isLocalPath cfg.repo) "network-online.target";
+      wants = optional (cfg.persistentTimer && !isLocalPath cfg.repo) "network-online.target";
     };
 
   # utility function around makeWrapper
