@@ -55,21 +55,22 @@ let
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter [ "writeBoundary" ]
     ''
+      ln -sfn $HOME/src/dotfiles/alacritty.toml $HOME/.config/alacritty.toml
       ln -sfn $HOME/src/dotfiles/bin            $HOME/bin
-      ln -sfn $HOME/src/dotfiles/opt            $HOME/opt
-      ln -sfn $HOME/src/dotfiles/tmux           $HOME/.tmux
-      ln -sfn $HOME/src/dotfiles/vim            $HOME/.vim
       ln -sfn $HOME/src/dotfiles/fish/functions $HOME/.config/fish/functions
       ln -sfn $HOME/src/dotfiles/isync/mbsyncrc $HOME/.mbsyncrc
       ln -sfn $HOME/src/dotfiles/kitty          $HOME/.config/kitty
       ln -sfn $HOME/src/dotfiles/mailcap        $HOME/.mailcap
-      mkdir -p $HOME/.config/mpv
-      ln -sfn $HOME/src/dotfiles/mpv/scripts    $HOME/.config/mpv/scripts
+      # mkdir -p $HOME/.config/mpv
+      # ln -sfn $HOME/src/dotfiles/mpv/scripts    $HOME/.config/mpv/scripts
       ln -sfn $HOME/src/dotfiles/neomutt        $HOME/.config/neomutt
       ln -sfn $HOME/src/dotfiles/notmuch/notmuch-config \
         $HOME/.notmuch-config
       ln -sfn $HOME/src/dotfiles/openbox        $HOME/.config/openbox
+      ln -sfn $HOME/src/dotfiles/opt            $HOME/opt
       ln -sfn $HOME/src/dotfiles/ranger         $HOME/.config/ranger
+      ln -sfn $HOME/src/dotfiles/tmux           $HOME/.tmux
+      ln -sfn $HOME/src/dotfiles/vim            $HOME/.vim
     '';
 
   home.file = let mozillaConfigPath =
