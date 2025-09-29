@@ -869,7 +869,48 @@ let
           WantedBy = [ "graphical-session.target" ];
         };
       };
+      "mbsync" = {
+        Service = {
+          Environment = let path = packagePath ( with pkgs; [ isync
+                                                              sequoia
+                                                              util-linux
+                                                            ]
+                                               );
+                         in "PATH=${path}";
+          ExecStart
+            = let script
+                    = pkgs.writeShellScript "mbsync-all" ''
+                        set -e
+                        flock --exclusive /tmp/maildir.exclusive mbsync --all
+                      '';
+               in "${script}";
+          PrivateTmp = true;  # Enable sieve-filter to join the tmp namespace
+          Restart = "on-failure";
+          Type = "exec";
+        };
+        Unit = {
+          Description = "isync IMAP sync service";
+          # OnSuccess = "sieve-filter.service";
+          # JoinsNamespaceOf = "sieve-filter.service";  # In sieve-filter to
+          #                                             # access the lock?
+        };
+      };
     };
     startServices = "sd-switch";
+    timers = {
+      "mbsync" = {  # Separate into a module
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
+        Timer = {
+          OnStartupSec = "0s";  # Otherwise the timer only starts triggering
+                                # after activating the service manually.
+          OnUnitActiveSec = "1h";
+        };
+        Unit = {
+          Description = "Synchronize mail about hourly";
+        };
+      };
+    };
   };
 }
