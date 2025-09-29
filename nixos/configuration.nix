@@ -137,19 +137,21 @@ in {
       variant = "dvorak";
       options = "caps:escape,compose:rwin";
     };
-    displayManager = { defaultSession = "none+openbox";
-                       lightdm = { enable = true;
-                                   greeters.mini = { enable = true;
-                                                     user = "toonn";
-                                                   };
-                                 };
-                     };
     windowManager.openbox.enable = true;
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput = { enable = true;
-                 touchpad.naturalScrolling = true;
-               };
+
+    displayManager.lightdm = { enable = true;
+                               greeters.mini = { enable = true;
+                                                 user = "toonn";
+                                               };
+                             };
   };
+
+  services.displayManager.defaultSession = "none+openbox";
+
+  # Enable touchpad support (enabled by default in most desktopManagers).
+  services.libinput = { enable = true;
+                        touchpad.naturalScrolling = true;
+                      };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
