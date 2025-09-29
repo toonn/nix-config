@@ -518,9 +518,9 @@ let
       bindings =
         { "ESC"              = "quit";
           "I"                =
-            "show_text \"\${media-title}\"           # display media-title in osd";
+            "show-text \"\${media-title}\"           # display media-title in osd";
           "F"                =
-            "show_text \"\${filename}\"              # display filename in osd";
+            "show-text \"\${filename}\"              # display filename in osd";
           "("                = "add volume -20";
           ")"                = "add volume +20";
           "g"                = "add sub-scale -0.1";
@@ -533,7 +533,7 @@ let
           "Ctrl+Shift+DOWN"  = "add video-pan-y -0.01";
           "Alt+-"            = "add video-zoom -0.25";
           "Alt+="            = "add video-zoom 0.25";
-          "Alt+UP"           = "vf toggle mirror"; # s/mirror/hflip ?
+          "Alt+UP"           = "vf toggle hflip";
           "Alt+BS"           = "playlist-remove current";
           "Ctrl+Alt+-"       = "add window-scale -0.5";
           "Ctrl+Alt++"       = "add window-scale +0.5";
