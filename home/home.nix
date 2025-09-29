@@ -285,6 +285,14 @@ let
       Alt <Key>I: set-reverse-video(toggle) \n\
     '';
 
+    # # Enable OSC 52 clipboard control sequence to *set* the clipboard contents
+    # "xterm*disallowedWindowOps" = "GetIconTitle,GetWinTitle,SetXprop";
+
+    # Enable SIXEL support
+    "xterm*decGraphicsID" = "vt340";
+    "xterm*numColorRegisters" = "1024";
+  };
+
   programs.autofirma = {
     # config.checkForUpdates = false;
     enable = true;
