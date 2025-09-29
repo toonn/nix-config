@@ -33,12 +33,15 @@ in {
     settings = {
       cores = 1;
       max-jobs = 1;
-      # Haskell.nix cache
-      trusted-public-keys = [
+      extra-trusted-public-keys = [
+        # Haskell.nix cache
         "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-      substituters = [ "https://cache.iog.io?priority=50" # Prefer nixos.org
-                     ];
+      extra-substituters = [
+        "https://cache.iog.io?priority=50" # Prefer nixos.org
+        "https://nix-community.cachix.org?priority=49"
+      ];
     };
   };
 
