@@ -435,7 +435,11 @@ in {
                     startAt = "hourly";
                   };
     irssiconfig = job { paths = "/home/toonn/.irssi"; };
-    taskell = job { paths = "/home/toonn/taskell.md"; };
+    mail = job { paths = "/home/toonn/.local/share/Mail"; };
+    taskell = job { paths = [ "/home/toonn/taskell.md"
+                              "/home/toonn/games.md"
+                            ];
+                  };
   };
 
   services.flatpak.enable = true;
