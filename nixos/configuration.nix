@@ -74,6 +74,16 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Blacklist module for built-in Broadcom BCM4328
+  # NetworkManager usually prefers its connection (maybe it connects faster
+  # than the USB adapter because it is detected earlier during boot?), which is
+  # unreliable. By blacklisting the module the interface won't be brought up
+  # and not cause trouble.
+  # Blacklisting WiFi prevents Bluetooth from coming up. : (
+  # `rfkill block`ing the interface prevents the WiFi dongle from working.
+  # Adding the interface to networkmanager.unmanaged as the last recourse?
+  # Sad that I cannot leave the hardware unpowered.
+  #boot.blacklistedKernelModules = [ "wl" ];
   # Aqprox WiFi adapter, RTL8811AU chip
   boot.extraModulePackages = with config.boot.kernelPackages; [
     rtl88xxau-aircrack
@@ -82,6 +92,13 @@ in {
   fileSystems."/".options = [ "compress=zstd" ];
 
   fonts.packages = with pkgs; [ joypixels ];
+
+  hardware.bluetooth = { enable = true;
+                         # PS3 SIXAXIS controller cannot pair with a PIN
+                         # This is less secure but I have not found a way to
+                         # specify configuration for a single device.
+                         input.General.ClassicBondedOnly = false;
+                       };
 
   hardware.cpu.intel.updateMicrocode = true;
 
@@ -95,11 +112,9 @@ in {
   ];
 
   networking.hostName = "yorp";
-  # Connman instead
-  # networking.wireless = { enable = true;  # Enables wpa_supplicant.
-  #                         interfaces = [ "wls4" ];
-  #                       };
-  networking.networkmanager.enable = true;
+  networking.networkmanager = { enable = true;
+                                unmanaged = [ "interface-name:=wls4" ];
+                              };
 
   time.timeZone = "Europe/Amsterdam";
 
