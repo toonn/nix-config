@@ -26,9 +26,6 @@ let
                 "https://github.com/nix-community/NUR/archive/master.tar.gz"
               ) { inherit pkgs; };
       };
-      permittedInsecurePackages = [
-        "openssl-1.0.2u"
-      ];
       zathura.useMupdf = true;
     };
 
