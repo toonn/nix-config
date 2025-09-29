@@ -119,10 +119,13 @@ let
                                                }
                                )
                           else app;
-    in with pkgs;
-       [ anki
+    in with pkgs; let inherit (import <nixos-unstable> {})
+                        jujutsu sequoia-sq yt-dlp-light;
+    in [ anki
          alass
+         bfpt
          bitwarden-cli
+         coldasdice
          curl
          direnv
          # eid-mw  # beID Middleware, paired with pcscd service for the readers
@@ -134,8 +137,10 @@ let
          inkscape
          irssi
          isync # IMAP synchronization
+         jujutsu
          jq # Specifically for bitwarden
-         kitty
+         # kitty
+         alacritty
          lorri
          moreutils
          mupdf
@@ -150,6 +155,7 @@ let
          sequoia-sq
          sops
          sshuttle
+         #haskellPackages.swarm # Should be fine after hackage bump.
          #taskell # needs bump on base bounds and compatibility with Brick 2.1.1
          time
          unrar
@@ -157,15 +163,13 @@ let
                                       guiSupport = "no";
                                       netbeansSupport = false;
                                     })
-         (import <nixos-unstable> {}).yt-dlp-light
+         yt-dlp-light
          zbar
        ] ++ (with haskellPackages; [
          arbtt
        ]) ++ (if pkgs.stdenv.isDarwin
-             then [ bfpt
-                    cachix
+             then [ cachix
                     cdrtools
-                    coldasdice
                     dosage
                     (ffmpeg-full.override { libopus = libopus;
                                             lame    = lame;
@@ -182,11 +186,16 @@ let
                     toxvpn # Service on NixOS
                     wire-desktop
                   ]
-             else [ ffmpeg
-                    # tailscale # Not available on darwin, service on NixOS
-                    teensy-udev-rules # Non-root programming of Teensy
+             else [ # bluez-tools  # Transfer files over Bluetooth with bt-obex
+                    ffmpeg
+                    ifuse  # To access iPad
+                    libimobiledevice  # To access iPad
+                    lutris-free
+                    teensy-udev-rules  # Non-root programming of Teensy
                     unzip  # Vim needs unzip to browse ZIP archives
+                    usbmuxd  # To access iPad
                     xclip
+                    zip  # To append to zip archives, bsdtar does not
                   ]);
 
   home.sessionPath = [ "$HOME/bin" "$HOME/opt" ];
