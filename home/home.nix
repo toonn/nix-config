@@ -2,6 +2,7 @@
 { nixpkgs = {
     config = {
       allowUnfreePredicate = p: builtins.elem (lib.getName p) [
+        "beIDConnect"
         "ffmpeg-full"
         "Firefox"
         "firefox-bin"
@@ -281,6 +282,7 @@
 
   programs.firefox = {
     enable = true;
+    nativeMessagingHosts = [ pkgs.beidconnect ];
     # TODO: Firefox is still missing eid-mw's managed-storage manifest
     package = pkgs.firefox-bin.override { pkcs11Modules = [ pkgs.eid-mw ]; };
     profiles = let
@@ -290,13 +292,13 @@
           darkreader
           decentraleyes
           multi-account-containers
-          #google-search-link-fix  # ClearURLs is a better alternative
-          #https-everywhere  # Deprecated in favor of native https_only_mode
           #saka-key  # Missing from rycee's addons
           temporary-containers
+          ublacklist
           ublock-origin
           vimium
         ] ++ ( with pkgs; [
+          beIDConnect  # Missing from rycee's addons Overlay
           belgium-eID  # Missing from rycee's addons Overlay
           clearurls  # Missing from rycee's addons Overlay
           custom-title  # Missing from rycee's addons Overlay
