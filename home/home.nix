@@ -443,6 +443,15 @@ let
                                     + "/gitignore/api/$@"
                                   + " ;};"
                                   + " gi";
+                       co-author = "!co() {"
+                         + " curl --request GET"
+                           + " --header 'Accept: application/vnd.github+json'"
+                           + " --url \"https://api.github.com/users/$@\""
+                         + " | jq --raw-output"
+                           + " '\"Co-authored-by: \\(.name // .login)"
+                           + " <\\(.id)+\\(.login)@users.noreply.github.com>\"'"
+                         + " ;};"
+                         + " co";
                      };
                    ignores =
                      [ # Swap
