@@ -836,16 +836,16 @@ let
   #   };
 
   systemd.user = {
-    services = {
+    services = let packagePath = ps: builtins.concatStringsSep ":"
+                                       (map (p: "${lib.getBin p}/bin") ps);
+                in {
       "arbtt-capture" = {
         # enable = true;
         Service = {
-          Environment = let path = builtins.concatStringsSep ":"
-                                     ( map (p: "${lib.getBin p}/bin")
-                                           ( with pkgs; [ haskellPackages.arbtt
-                                                          coreutils
-                                                        ]
-                                           )
+          Environment = let path = packagePath
+                                     ( with pkgs; [ haskellPackages.arbtt
+                                                    coreutils
+                                                  ]
                                      );
                          in "PATH=${path}";
           ExecStart
@@ -859,6 +859,7 @@ let
                       '';
                in "${script}";
           Restart = "always";
+          Type = "exec";
         };
         Unit = {
           Description = "Arbtt capture service";
