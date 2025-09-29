@@ -1,1 +1,2 @@
+export PROJECT_SPECIFIC_VIMRC=.vimrc
 eval "$(lorri direnv)"
