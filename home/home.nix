@@ -8,6 +8,7 @@ let
     )
     { src =  <autofirma-nix>; }
   ).defaultNix;
+  nixos-unstable = import <nixos-unstable> {};
  in
 { nixpkgs = {
     config = {
@@ -30,6 +31,7 @@ let
     };
 
     overlays = [
+      (self: super: { yt-dlp = nixos-unstable.yt-dlp-light; })
       (import /home/toonn/src/nix-config/overlays/firefox-addons.nix)
       # (import /home/toonn/src/nix-config/overlays/haskell-packages.nix)
       (import /home/toonn/src/nix-config/overlays/mpvScripts.nix)
@@ -119,10 +121,10 @@ let
                                                }
                                )
                           else app;
-    in with pkgs; let inherit (import <nixos-unstable> {})
+    in with pkgs; let inherit (nixos-unstable)
                         jujutsu sequoia-sq yt-dlp-light;
     in [ anki
-         alass
+         # alass  # Unsupported upstream : (
          bfpt
          bitwarden-cli
          coldasdice
@@ -132,13 +134,13 @@ let
          entr
          fd
          gist
-         # glirc # irc-core-2.11 marked as broken
+         # glirc  # irc-core-2.11 marked as broken
          gnupg
          inkscape
          irssi
-         isync # IMAP synchronization
+         isync  # IMAP synchronization
          jujutsu
-         jq # Specifically for bitwarden
+         jq  # Specifically for bitwarden
          # kitty
          alacritty
          lorri
@@ -155,8 +157,8 @@ let
          sequoia-sq
          sops
          sshuttle
-         #haskellPackages.swarm # Should be fine after hackage bump.
-         #taskell # needs bump on base bounds and compatibility with Brick 2.1.1
+         #haskellPackages.swarm  # Should be fine after hackage bump.
+         #taskell  # needs bump on bounds and compatibility with Brick 2.1.1
          time
          unrar
          (vim_configurable.override { darwinSupport = pkgs.stdenv.isDarwin;
