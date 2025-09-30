@@ -52,6 +52,10 @@ in {
         "joypixels"
       ];
       joypixels.acceptLicense = true;
+
+      permittedInsecurePackages = [
+        "broadcom-sta-6.30.223.271-57-6.12.48"
+      ];
     };
 
     overlays = [
