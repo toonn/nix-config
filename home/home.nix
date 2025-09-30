@@ -320,7 +320,7 @@ let
     # TODO: Firefox is still missing eid-mw's managed-storage manifest
     package = pkgs.firefox-bin.override { pkcs11Modules = [ pkgs.eid-mw ]; };
     profiles = let
-      extensions = with pkgs.nur.repos.rycee.firefox-addons;
+      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons;
         [
           bitwarden
           darkreader
@@ -784,7 +784,7 @@ let
 
   services.gpg-agent = { enable = true;
                          #enableSshSupport = true;
-                         pinentryPackage = pkgs.pinentry-tty;
+                         pinentry.package = pkgs.pinentry-tty;
                          #sshKeys = [ "" ];
                        };
 
