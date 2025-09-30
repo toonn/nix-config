@@ -540,27 +540,29 @@ let
           "Ctrl+Alt+-"       = "add window-scale -0.5";
           "Ctrl+Alt++"       = "add window-scale +0.5";
         };
-       config = { osc             = "no";
-                  volume-max      = "600";
-                  af              = "scaletempo";
-                  sub-auto        = "fuzzy";
-                  slang           = "eng,en";
-                  alang           = "eng,en";
-                  border          = "no";
-                  ytdl-format     =
+       config = { osc                = "no";
+                  volume-max         = "600";
+                  af                 = "scaletempo";
+                  sub-auto           = "fuzzy";
+                  slang              = "eng,en";
+                  alang              = "eng,en";
+                  border             = "no";
+                  ytdl-format        =
                     "best #bestvideo[height<=?720]+bestaudio/best";
-                  osd-font        = "'Source Sans Pro'";
-                  osd-font-size   = 40;
-                  # sub-scale       = 0.6;
-                  sub-font-size   = 27; # default 55
-                  sub-border-size = 1.5; # default 3
-                  title           = "\${?pause==no:Playing}\${?pause==yes:Paused} - \${working-directory} \${path}"; # for arbtt
-                  script-opts-append = "autocrop-auto=no";
+                  osd-font           = "'Source Sans Pro'";
+                  osd-font-size      = 40;
+                  # sub-scale          = 0.6;
+                  sub-font-size      = 27;  # default 55
+                  sub-border-size    = 1.5;  # default 3
+                  title              =
+                    "\${?pause==no:Playing}\${?pause==yes:Paused} - \${working-directory} \${path}";  # for arbtt
+                  gpu-api            = "opengl";  # Because of my old hardware
                 };
-       # profiles = { fast = { vo = "vdpau"; }; };
+       defaultProfiles = [ "fast" ];  # Because of old hardware
        scripts = with pkgs.mpvScripts; [ autocrop
                                          cycle-video-rotate
                                        ];
+       scriptOpts = { autocrop.auto = false; };
     };
 
   programs.ssh =
