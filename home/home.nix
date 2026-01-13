@@ -161,10 +161,10 @@ let
          #taskell  # needs bump on bounds and compatibility with Brick 2.1.1
          time
          unrar
-         (vim_configurable.override { darwinSupport = pkgs.stdenv.isDarwin;
-                                      guiSupport = "no";
-                                      netbeansSupport = false;
-                                    })
+         (vim-full.override { darwinSupport = pkgs.stdenv.isDarwin;
+                              guiSupport = "no";
+                              netbeansSupport = false;
+                            })
          yt-dlp-light
          zbar
        ] ++ (with haskellPackages; [
