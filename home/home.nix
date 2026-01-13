@@ -866,11 +866,12 @@ let
       };
       "mbsync" = {
         Service = {
-          Environment = let path = packagePath ( with pkgs; [ isync
-                                                              sequoia
-                                                              util-linux
-                                                            ]
-                                               );
+          Environment = let path = packagePath (with pkgs;
+                                     [ isync
+                                       nixos-unstable.sequoia-sq
+                                       util-linux
+                                     ]
+                                   );
                          in "PATH=${path}";
           ExecStart
             = let script
