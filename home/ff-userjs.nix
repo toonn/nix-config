@@ -19,6 +19,16 @@
   "browser.formfill.enable" = false;
   "browser.link.open_newwindow" = 3;
   "browser.link.open_newwindow.restriction" = 0;
+  "browser.ml.chat.enabled" = false;
+  "browser.ml.chat.hideLocalhost" = false;
+  "browser.ml.chat.menu" = false;
+  "browser.ml.chat.page" = false;
+  "browser.ml.chat.page.footerBadge" = false;
+  "browser.ml.chat.page.menuBadge" = false;
+  "browser.ml.chat.shortcuts" = false;
+  "browser.ml.chat.shortcuts.custom" = false;
+  "browser.ml.chat.sidebare" = false;
+  "browser.ml.enable" = false;
   "browser.newtabpage.activity-stream.asrouter.providers.snippets" = false;
   "browser.newtabpage.activity-stream.feeds.discoverystreamfeed" = false;
   "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
