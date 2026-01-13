@@ -570,16 +570,10 @@ let
 
   programs.ssh =
     { enable = true;
-      extraConfig = "AddKeysToAgent yes"; # Add key to the agent on first use
       # extraOptionOverrides = { };
-      matchBlocks = { "g5" = { hostname = "192.168.0.9";
-                               user     = "toon";
-                             };
-                      # From titan:
-                      # "cs" = { hostname     = "st.cs.kuleuven.be";
-                      #          user         = "r0258654";
-                      #          identityFile = "~/.ssh/cs_id_rsa";
-                      #        };
+      matchBlocks = { "*" = { addKeysToAgent = "yes";
+                              controlPath = "~/.ssh/master-%r@%n:%p";
+                            };
                       # From terra:
                       "cs" = { hostname = "st.cs.kuleuven.be";
                                user = "r0258654";
@@ -589,12 +583,6 @@ let
                                                   "publickey,password";
                                               };
                              };
-                      # From titan:
-                      # "github" = { hostname     = "github.com";
-                      #              user         = "git";
-                      #              identityFile = "~/.ssh/github_id_rsa";
-                      #            };
-                      # From terra:
                       "github" = { hostname = "github.com";
                                    user = "git";
                                    identityFile = [ "~/.ssh/terra_gh_id_ed25519"
