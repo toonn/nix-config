@@ -414,8 +414,40 @@ let
   
   programs.git = { enable = true;
                    package = pkgs.git;
-                   aliases =
-                     { lg = "log --graph --pretty=format:'%C(auto)%h -%d %s"
+                   ignores =
+                     [ # Swap
+                       "[._]*.s[a-v][a-z]"
+                       "[._]*.sw[a-p]"
+                       "[._]s[a-rt-v][a-z]"
+                       "[._]ss[a-gi-z]"
+                       "[._]sw[a-p]"
+
+                       # Session
+                       "Session.vim"
+                       "Sessionx.vim"
+
+                       # Temporary
+                       ".netrwhist"
+                       "*~"
+                       # Auto-generated tag files
+                       "tags"
+
+                       # Persistent undo
+                       "[._]*.un~"
+
+                       # Direnv
+                       ".direnv"
+                       ".envrc"
+
+                       # OS generated files
+                       ".DS_Store"
+                       "ehthumbs.db"
+                       "Icon?"
+                       "Thumbs.db"
+                     ];
+                   settings = {
+                     alias = {
+                       lg = "log --graph --pretty=format:'%C(auto)%h -%d %s"
                           + " %Cgreen(%cr) %C(bold blue)<%an>%Creset'";
                        st = "status -sb";
                        checkout-empty = "!checkout-empty() {"
@@ -455,44 +487,15 @@ let
                          + " ;};"
                          + " co";
                      };
-                   ignores =
-                     [ # Swap
-                       "[._]*.s[a-v][a-z]"
-                       "[._]*.sw[a-p]"
-                       "[._]s[a-rt-v][a-z]"
-                       "[._]ss[a-gi-z]"
-                       "[._]sw[a-p]"
-
-                       # Session
-                       "Session.vim"
-                       "Sessionx.vim"
-
-                       # Temporary
-                       ".netrwhist"
-                       "*~"
-                       # Auto-generated tag files
-                       "tags"
-
-                       # Persistent undo
-                       "[._]*.un~"
-
-                       # Direnv
-                       ".direnv"
-                       ".envrc"
-
-                       # OS generated files
-                       ".DS_Store"
-                       "ehthumbs.db"
-                       "Icon?"
-                       "Thumbs.db"
-                     ];
+                     user = { email = "toonn@toonn.io";
+                              name = "toonn";
+                            };
+                   };
                    signing = {
                      # No longer has a default value?
                      key = null; # Select key based on commit author
                      signByDefault = true;
                    };
-                   userEmail = "toonn@toonn.io";
-                   userName = "toonn";
                  };
 
   programs.info.enable = false;
