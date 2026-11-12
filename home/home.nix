@@ -127,8 +127,9 @@ let
                                )
                           else app;
     in with pkgs; let inherit (nixos-unstable)
-                        jujutsu sequoia-sq yt-dlp-light;
-    in [ anki
+                        jujutsu;
+    in [ alacritty
+         anki
          # alass  # Unsupported upstream : (
          bfpt
          bitwarden-cli
@@ -141,26 +142,27 @@ let
          gist
          # glirc  # irc-core-2.11 marked as broken
          gnupg
+         iamb
          inkscape
          irssi
          isync  # IMAP synchronization
          jujutsu
          jq  # Specifically for bitwarden
          # kitty
-         alacritty
+         libarchive
          lorri
          moreutils
          mupdf
          neomutt
-         niv
+         # niv
          notmuch
          (pass.withExtensions (exts: with exts; [ pass-otp ]))
          qmk
          ranger
          ripgrep
-         rsync
+         rsync341
          sequoia-sq
-         sops
+         # sops
          sshuttle
          #haskellPackages.swarm  # Should be fine after hackage bump.
          #taskell  # needs bump on bounds and compatibility with Brick 2.1.1
