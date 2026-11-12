@@ -81,6 +81,18 @@ in {
       (import (nix-config-repo + "/overlays/mdns-publisher.nix"))
       (import (nix-config-repo + "/overlays/purple-matrix.nix"))
 
+      # Try Mesa 25.3 for my Anki issue. With patch from MR !38205
+      # Fall back to Mesa from 25.05
+      (self: super: {
+        inherit (import (builtins.fetchTarball {
+                         name = "nixos-25.05-for-mesa";
+                         url = "https://nixos.org/channels/nixos-25.05/nixexprs.tar.xz";
+                         sha256 = "sha256:1ddmkpi8fn643b50sg2241w85549cx53ahhhj7vf9129rhpqqd6z";
+                        })
+                        {}
+                ) mesa;
+      })
+
       # # Temporarily trying to debug subdomain resolution by nsncd
       # ( self: super: {
       #     nsncd = super.nsncd.overrideAttrs (oAs: {
