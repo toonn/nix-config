@@ -313,7 +313,8 @@ let
 
   programs.autofirma = {
     # config.checkForUpdates = false;
-    enable = true;
+    enable = false; # true;  # Software ran but selecting the DNI almacén just
+                             # caused errors.
     firefoxIntegration.profiles.cmyk.enable = true;
   };
 
