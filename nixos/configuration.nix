@@ -70,6 +70,10 @@ in {
         "broadcom-sta-6.30.223.271-59-6.18.56"
         "olm-3.2.16" # Bitlbee libPurple Matrix
       ];
+
+      problems.handlers = {
+        rtl88xxau-aircrack.broken = "warn"; # or "ignore"
+      };
     };
 
     overlays = [
@@ -104,7 +108,9 @@ in {
   #boot.blacklistedKernelModules = [ "wl" ];
   # Aqprox WiFi adapter, RTL8811AU chip
   boot.extraModulePackages = with config.boot.kernelPackages; [
-    rtl88xxau-aircrack
+    #rtl88xxau-aircrack
+    # Trying rtw88 alternative
+    rtw88
   ];
 
   fileSystems."/".options = [ "compress=zstd" ];
