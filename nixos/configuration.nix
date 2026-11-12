@@ -513,6 +513,9 @@ in {
   services.mdns-publisher.names =
     map (sub: sub + ".${config.networking.hostName}.local")
         [ "32p"
+          "api.ente"
+          "minio.ente"
+          "ente"
           "ggn"
           "immich"
           "ipt"
