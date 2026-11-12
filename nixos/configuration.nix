@@ -51,10 +51,24 @@ in {
         "broadcom-sta"
         "joypixels"
       ];
+
       joypixels.acceptLicense = true;
 
       permittedInsecurePackages = [
-        "broadcom-sta-6.30.223.271-57-6.12.48"
+        #"broadcom-sta-6.30.223.271-57-6.12.48"
+        #"broadcom-sta-6.30.223.271-57-6.12.53"
+        #"broadcom-sta-6.30.223.271-57-6.12.54"
+        #"broadcom-sta-6.30.223.271-59-6.12.59"
+        #"broadcom-sta-6.30.223.271-59-6.12.63"
+        #"broadcom-sta-6.30.223.271-59-6.12.68"
+        #"broadcom-sta-6.30.223.271-59-6.12.82"
+        #"broadcom-sta-6.30.223.271-59-6.12.85"
+        #"broadcom-sta-6.30.223.271-59-6.18.35"
+        #"broadcom-sta-6.30.223.271-59-6.18.38"
+        #"broadcom-sta-6.30.223.271-59-6.18.44"
+        #"broadcom-sta-6.30.223.271-59-6.18.46"
+        "broadcom-sta-6.30.223.271-59-6.18.56"
+        "olm-3.2.16" # Bitlbee libPurple Matrix
       ];
     };
 
