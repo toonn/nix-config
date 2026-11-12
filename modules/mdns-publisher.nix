@@ -22,7 +22,7 @@ in with lib; {
         DynamicUser = false;
         Type = "simple";
         WorkingDirectory = "/var/empty";
-        ExecStart = ''${pkgs.mdns-publisher}/bin/mdns-publish-cname --ttl 20 ${concatStringsSep " " cfg.names}'';
+        ExecStart = "${pkgs.mdns-publisher}/bin/mdns-publish-cname --ttl 20 ${concatStringsSep " " cfg.names}";
         Restart = "no";
         PrivateDevices = true;
       };
