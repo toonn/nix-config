@@ -20,6 +20,13 @@ in {
             sha256 = "sha256-pGLF+awQBxPSA293kMST88/IgWJPtCOlcF25iwHO+ms=";
             urlNr = "4343570";
           };
+          "0.0.17" = {
+            # URL can be gotten from the download/remove button on Mozilla's
+            # add-ons page,
+            # https://addons.mozilla.org/firefox/downloads/file/4603345/beidconnect-0.0.17.xpi
+            sha256 = "sha256-saQVw3noZz1EB3398xnd7kOgZN6PpVBYY9k4Aq3eKMM=";
+            urlNr = "4603345";
+          };
         };
         latest = latestVersion "0.0.16" versions;
       in rec {
