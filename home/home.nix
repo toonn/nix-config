@@ -579,100 +579,105 @@ let
   programs.ssh =
     { enable = true;
       # extraOptionOverrides = { };
-      matchBlocks = { "*" = { addKeysToAgent = "yes";
-                              controlPath = "~/.ssh/master-%r@%n:%p";
-                            };
-                      # From terra:
-                      "cs" = { hostname = "st.cs.kuleuven.be";
-                               user = "r0258654";
-                               identityFile = [ "~/.ssh/cs_kuleuven_id_rsa"
-                                                "~/.ssh/cs_kuleuven_id_dsa" ];
-                               extraOptions = { preferredAuthentications =
-                                                  "publickey,password";
-                                              };
-                             };
-                      "github" = { hostname = "github.com";
-                                   user = "git";
-                                   identityFile = [ "~/.ssh/terra_gh_id_ed25519"
-                                                    "~/.ssh/yorp_gh_id_ed25519"
-                                                  ];
-                                   extraOptions = { preferredAuthentications =
-                                                      "publickey";
-                                                  };
-		                 };
-                      "gist" = { hostname     = "gist.github.com";
-                                 user         = "git";
-                                 identityFile = "~/.ssh/github_id_rsa";
-                               };
-                      "gho" = { hostname = "gitlab.haskell.org";
+      settings = { "*" = { addKeysToAgent = "yes";
+                           controlPath = "~/.ssh/master-%r@%n:%p";
+                         };
+                   # From terra:
+                   "cs" = { hostname = "st.cs.kuleuven.be";
+                            user = "r0258654";
+                            identityFile = [ "~/.ssh/cs_kuleuven_id_rsa"
+                                             "~/.ssh/cs_kuleuven_id_dsa" ];
+                            preferredAuthentications = "publickey,password";
+                          };
+                   "github" = { hostname = "github.com";
                                 user = "git";
-                                identityFile = [ "~/.ssh/terra_gho_id_ed25519"
-                                                 "~/.ssh/yorp_gho_id_ed25519"
+                                identityFile = [ "~/.ssh/terra_gh_id_ed25519"
+                                                 "~/.ssh/yorp_gh_id_ed25519"
                                                ];
-                                extraOptions = { preferredAuthentications =
-                                                   "publickey";
-                                               };
-                              };
-                      "gfo" = { hostname = "gitlab.freedesktop.org";
-                                user = "git";
-                                identityFile = "~/.ssh/terra_gfo_id_ed25519";
-                              };
-                      "codeberg" = {
-                        hostname = "codeberg.org";
-                        user = "git";
-                        identityFile = "~/.ssh/yorp_cbg_id_ed25519";
-                        extraOptions = { preferredAuthentications =
-                                           "publickey";
-                                       };
-                      };
-                      "sol" = { hostname     = "sol.local";
+                                preferredAuthentications = "publickey";
+		              };
+                   "gist" = { hostname     = "gist.github.com";
+                              user         = "git";
+                              identityFile = "~/.ssh/github_id_rsa";
+                            };
+                   "gho" = { hostname = "gitlab.haskell.org";
+                             user = "git";
+                             identityFile = [ "~/.ssh/terra_gho_id_ed25519"
+                                              "~/.ssh/yorp_gho_id_ed25519"
+                                            ];
+                             preferredAuthentications = "publickey";
+                           };
+                   "gfo" = { hostname = "gitlab.freedesktop.org";
+                             user = "git";
+                             identityFile = "~/.ssh/terra_gfo_id_ed25519";
+                           };
+                   "codeberg" = {
+                     hostname = "codeberg.org";
+                     user = "git";
+                     identityFile = "~/.ssh/yorp_cbg_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                   "fediversity" = {
+                     hostname = "git.fediversity.eu";
+                     user = "forgejo";
+                     identityFile = "~/.ssh/yorp_fediversity_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                   "lix" = {
+                     hostname = "git.lix.systems";
+                     user = "git";
+                     identityFile = "~/.ssh/yorp_fediversity_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                   "lix-gerrit" = {
+                     hostname = "gerrit.lix.systems";
+                     port = 2022;
+                     user = "toonn";
+                     identityFile = "~/.ssh/yorp_fediversity_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                   "sol" = { hostname     = "sol.local";
+                             user         = "toonn";
+                             identityFile = "~/.ssh/nix_id_ed25519";
+                           };
+                   # From titan:
+                   "toxsol" = { hostname     = "10.0.0.5";
                                 user         = "toonn";
-                                identityFile = "~/.ssh/nix_id_ed25519";
+                                identityFile = "~/.ssh/yorp_id_ed25519";
                               };
-                      # From titan:
-                      "toxsol" = { hostname     = "10.0.0.5";
-                                   user         = "toonn";
-                                   identityFile = "~/.ssh/yorp_id_ed25519";
-                                 };
-                      "terra" = { hostname = "terra.local";
-                                  user         = "toonn";
-                                  identityFile = "~/.ssh/yorp_id_ed25519";
-                                };
-                      "titan" = { hostname = "titan.local";
-                                  extraOptions = { preferredAuthentications =
-                                                     "publickey,password";
-                                                 };
-                                };
-                      "yorp" = { hostname     = "yorp.local";
-                                 user         = "toonn";
-                                 identityFile = "~/.ssh/yorp_id_ed25519";
-                               };
-                      "helium" = { hostname = "ssh.esat.kuleuven.be";
-                                   user     = "r0258654";
-                                 };
-                      "lint" = { hostname     = "localhost";
-                                 port         = 2222;
-                                 user         = "r0258654";
-                                 extraOptions = { hostKeyAlias = "lint"; };
-                               };
-                      # To avoid passing the path to the key file
-                      "darwin-build-box" = {
-                        hostname     = "darwin-build-box.winter.cafe";
-                        user         = "toonn";
-                        identityFile = "~/.ssh/darwin-build-box_id_ed25519";
-                        extraOptions = { preferredAuthentications =
-                                           "publickey";
-                                       };
-                      };
-                      "community-build-box" = {
-                        hostname     = "darwin-build-box.nix-community.org";
-                        user         = "toonn";
-                        identityFile = "~/.ssh/darwin-build-box_id_ed25519";
-                        extraOptions = { preferredAuthentications =
-                                           "publickey";
-                                       };
-                      };
-                    };
+                   "terra" = { hostname = "terra.local";
+                               user         = "toonn";
+                               identityFile = "~/.ssh/yorp_id_ed25519";
+                             };
+                   "titan" = { hostname = "titan.local";
+                               preferredAuthentications = "publickey,password";
+                             };
+                   "yorp" = { hostname     = "yorp.local";
+                              user         = "toonn";
+                              identityFile = "~/.ssh/yorp_id_ed25519";
+                            };
+                   "helium" = { hostname = "ssh.esat.kuleuven.be";
+                                user     = "r0258654";
+                              };
+                   "lint" = { hostname     = "localhost";
+                              port         = 2222;
+                              user         = "r0258654";
+                              hostKeyAlias = "lint";
+                            };
+                   # To avoid passing the path to the key file
+                   "darwin-build-box" = {
+                     hostname     = "darwin-build-box.winter.cafe";
+                     user         = "toonn";
+                     identityFile = "~/.ssh/darwin-build-box_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                   "community-build-box" = {
+                     hostname     = "darwin-build-box.nix-community.org";
+                     user         = "toonn";
+                     identityFile = "~/.ssh/darwin-build-box_id_ed25519";
+                     preferredAuthentications = "publickey";
+                   };
+                 };
     };
 
   # programs.texlive = { enable = true;
