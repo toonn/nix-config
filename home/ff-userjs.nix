@@ -6,6 +6,7 @@
   "app.update.auto" = false;
   "beacon.enabled" = false;
   "breakpad.reportURL" = "";
+  "browser.ai.control.default" = "blocked";
   "browser.contentblocking.category" = "custom";
   "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
   "browser.crashReports.unsubmittedCheck.enabled" = false;
@@ -53,6 +54,9 @@
   "browser.ssl_override_behavior" = 1;
   "browser.startup.page" = 3;
   "browser.tabs.crashReporting.sendReport" = false;
+  "browser.tabs.groups.smart.enabled" = false;
+  "browser.tabs.groups.smart.optin" = false;
+  "browser.tabs.groups.smart.userEnabled" = false;
   "browser.tabs.remote.allowLinkedWebInFileUriProcess" = false;
   "browser.uitour.enabled" = false;
   "browser.uitour.url" = "";
