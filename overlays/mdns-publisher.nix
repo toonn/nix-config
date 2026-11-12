@@ -1,7 +1,7 @@
 self: super: {
   mdns-publisher = super.callPackage (
     { lib, buildPythonPackage, fetchPypi
-    , dbus-python
+    , dbus-python, setuptools
     }:
 
     buildPythonPackage rec {
@@ -12,6 +12,10 @@ self: super: {
         inherit pname version;
         sha256 = "1klgk6s2d3h2fbgfsv64p2f6lif3hd8ngbq04cvsqiq5gcm90c5j";
       };
+
+      pyproject = true;
+
+      build-system = [ setuptools ];
 
       propagatedBuildInputs = [ dbus-python ];
 
@@ -38,5 +42,7 @@ self: super: {
         maintainers = with maintainers; [ toonn ];
       };
     }
-  ) { inherit (super.python3Packages) buildPythonPackage fetchPypi dbus-python; };
+  ) { inherit (super.python3Packages)
+      buildPythonPackage fetchPypi dbus-python setuptools;
+    };
 }
