@@ -257,6 +257,9 @@ in {
     };
     shells = with pkgs; [ fish ];
     systemPackages = with pkgs; [
+      # Enable screen brightness fn keys together with services.actkbd,
+      # replacement for programs.light.
+      brightnessctl
       vim
     ];
   };
@@ -265,9 +268,6 @@ in {
   # shell and therefore the Nix paths are set up by HM.
   programs.fish.enable = true;
 
-  # Enable screen bright fn keys together with services.actkbd
-  programs.light.enable = true;
-
   # Darwin-build-box public key fingerprint
   programs.ssh.knownHosts."darwin-build-box.winter.cafe".publicKey =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB0io9E0eXiDIEHvsibXOxOPveSjUPIr1RnNKbUkw3fD";
@@ -275,17 +275,17 @@ in {
   programs.ssh.knownHosts."darwin-build-box.nix-community.org".publicKey =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFz8FXSVEdf8FvDMfboxhB5VjSe7y2WgSa09q1L4t099";
 
-  # Bind fn brightness keys to light utility commands
   services.actkbd = {
+    # Bind fn brightness keys to light utility commands
     # /dev/input/event7 seems to be the keyboard
-    bindings = let light = "${lib.getBin pkgs.light}/bin/light";
+    bindings = let light = "${lib.getExe pkgs.brightnessctl}";
                 in [ { keys = [ 224 ];
                        events = [ "key" ];
-                       command = "${light} -U 5";
+                       command = "${light} set 5%-";
                      }
                      { keys = [ 225 ];
                        events = [ "key" ];
-                       command = "${light} -A 5";
+                       command = "${light} set +5%";
                      }
                    ];
     enable = true;
@@ -328,33 +328,46 @@ in {
               ];
   };
 
-  # # Volume control with actkbd and pactl/wpctl needs to run as a user unit.
-  # # Based on PR #67227, https://github.com/NixOS/nixpkgs/pull/67227
   # services.udev.packages = lib.mkForce (lib.singleton
-  #   ( pkgs.writeTextFile {
-  #       name = "actkbd-udev-rules";
-  #       destination = "/etc/udev/rules.d/61-actkbd.rules";
-  #       text = let actkbdVar = "actkbd@$env{DEVNAME}.service";
-  #               in ''
-  #                    ACTION=="add", \
-  #                    SUBSYSTEM=="input", \
-  #                    KERNEL=="event[0-9]*", \
-  #                    ENV{ID_INPUT_KEY}=="1", \
-  #                    TAG+="systemd", \
-  #                    TAG+="uaccess",${ # Necessary for user services to get
-  #                                      # access to the input device. I tried
-  #                                      # setting MODE=0444 but this made both
-  #                                      # user and system services fail.
-  #                                      # Note: Udev rules don't support in-line
-  #                                      #       comments so this is a sneaky way
-  #                                      #       to do so.
-  #                                      ""
-  #                                    } \
-  #                    ENV{SYSTEMD_WANTS}+="${actkbdVar}", \
-  #                    ENV{SYSTEMD_USER_WANTS}+="user-${actkbdVar}"
-  #                  '';
-  #     }
-  #   )
+  #     ( pkgs.writeTextFile {
+  #         name = "disable-dysfunctional-broadcom-wifi";
+  #         destination = "/etc/udev/rules.d/61-disable-dysfunctional-wifi.rules";
+  #         text = ''
+  #           ACTION=="add", \
+  #           SUBSYSTEM=="net", \
+  #           DEVPATH=="/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/wls4", \
+  #           ENV{ID_MODEL_FROM_DATABASE}\
+  #           =="BCM4321 802.11a/b/g/n (AirPort Extreme)", \
+  #           RUN+="/bin/sh -c 'echo 1 >/sys$DEVPATH/device/remove'"
+  #         '';
+  #       }
+  #     )
+  # # # Volume control with actkbd and pactl/wpctl needs to run as a user unit.
+  # # # Based on PR #67227, https://github.com/NixOS/nixpkgs/pull/67227
+  # #   ( pkgs.writeTextFile {
+  # #       name = "actkbd-udev-rules";
+  # #       destination = "/etc/udev/rules.d/61-actkbd.rules";
+  # #       text = let actkbdVar = "actkbd@$env{DEVNAME}.service";
+  # #               in ''
+  # #                    ACTION=="add", \
+  # #                    SUBSYSTEM=="input", \
+  # #                    KERNEL=="event[0-9]*", \
+  # #                    ENV{ID_INPUT_KEY}=="1", \
+  # #                    TAG+="systemd", \
+  # #                    TAG+="uaccess",${ # Necessary for user services to get
+  # #                                      # access to the input device. I tried
+  # #                                      # setting MODE=0444 but this made both
+  # #                                      # user and system services fail.
+  # #                                      # Note: Udev rules don't support in-line
+  # #                                      #       comments so this is a sneaky way
+  # #                                      #       to do so.
+  # #                                      ""
+  # #                                    } \
+  # #                    ENV{SYSTEMD_WANTS}+="${actkbdVar}", \
+  # #                    ENV{SYSTEMD_USER_WANTS}+="user-${actkbdVar}"
+  # #                  '';
+  # #     }
+  # #   )
   # );
 
   # # Usually these'd be managed by HM but I consider media keys to be a
