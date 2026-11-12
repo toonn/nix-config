@@ -881,7 +881,7 @@ let
         Service = {
           Environment = let path = packagePath (with pkgs;
                                      [ isync
-                                       nixos-unstable.sequoia-sq
+                                       sequoia-sq
                                        util-linux
                                      ]
                                    );
