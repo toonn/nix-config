@@ -872,6 +872,9 @@ let
         Unit = {
           Description = "Arbtt capture service";
           PartOf = [ "graphical-session.target" ];
+          # Using `time-set.target` can get me 2001.
+          After = [ "user-time-sync.target" ];
+          Wants = [ "user-time-sync.target" ];
         };
         Install = {
           WantedBy = [ "graphical-session.target" ];
@@ -904,8 +907,45 @@ let
           #                                             # access the lock?
         };
       };
+      "user-time-wait-sync" = {
+        # Based on systemd's systemd-time-wait-sync.service
+        #  SPDX-License-Identifier: LGPL-2.1-or-later
+        Unit = {
+          Description = "wait until kernel time synchronized";
+          Documentation = "man:systemd-time-wait-sync.service(8)";
+          ConditionCapability = "cap_sys_time";
+          ConditionVirtualization = "!container";
+          DefaultDependencies = "no";
+          Before = [ "user-time-sync.target" ];
+          Wants = [ "user-time-sync.target" ];
+          Conflicts = [ "shutdown.target" ];
+        };
+
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.systemd}/lib/systemd/systemd-time-wait-sync";
+          TimeoutStartSec = "infinity";
+          RemainAfterExit = "yes";
+        };
+
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
+      };
     };
     startServices = "sd-switch";
+    targets = {
+      "user-time-sync" = {
+        # Based on systemd's time-sync.target
+        #  SPDX-License-Identifier: LGPL-2.1-or-later
+        Unit = {
+          Description = "System Time Synchronized";
+          Documentation = "man:systemd.special(7)";
+          RefuseManualStart = "yes";
+          Wants = [ "user-time-wait-sync.service" ];
+        };
+      };
+    };
     timers = {
       "mbsync" = {  # Separate into a module
         Install = {
