@@ -17,24 +17,29 @@ let
         "ffmpeg-full"
         "Firefox"
         "firefox-bin"
-        "firefox-release-bin-unwrapped"
+        "firefox-bin-unwrapped"
         "openemu"
         "teensy-udev-rules"
         "unrar"
       ];
       packageOverrides = pkgs: {
         nur = import ( builtins.fetchTarball
-                "https://github.com/nix-community/NUR/archive/master.tar.gz"
+                "https://github.com/nix-community/NUR/archive/main.tar.gz"
               ) { inherit pkgs; };
       };
+      permittedInsecurePackages = [
+        "mbedtls-2.28.10"
+      ];
       zathura.useMupdf = true;
     };
 
     overlays = [
-      (self: super: { yt-dlp = nixos-unstable.yt-dlp-light; })
+      # Overlay until 2.12 is in Nixpkgs
+      (import /home/toonn/src/nix-config/overlays/beidconnect.nix)
       (import /home/toonn/src/nix-config/overlays/firefox-addons.nix)
-      # (import /home/toonn/src/nix-config/overlays/haskell-packages.nix)
+      (import /home/toonn/src/nix-config/overlays/haskell-packages.nix)
       (import /home/toonn/src/nix-config/overlays/mpvScripts.nix)
+      (import /home/toonn/src/nix-config/overlays/rsync-3.4.1.nix)
       (import /home/toonn/src/nix-config/overlays/taskell.nix)
     ];
   };
